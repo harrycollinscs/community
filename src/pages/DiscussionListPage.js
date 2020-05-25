@@ -7,16 +7,19 @@ import {
   View,
   Text,
   StatusBar,
+  Button,
+  TouchableOpacity,
+
 } from 'react-native';
 
-export default class Profile extends Component {
+import DiscussionList from '../components/DiscussionList';
+
+export default class DiscussionListPage extends Component {
 
   render() {
     return (
-      <>
-        <Text>This is a profile</Text>
-      </>
+       <DiscussionList/>
     )
   }
-
 }
+

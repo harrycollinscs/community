@@ -1,12 +1,4 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
-import React from 'react';
+import React, { Component } from 'react';
 
 import {
   SafeAreaView,
@@ -15,29 +7,75 @@ import {
   View,
   Text,
   StatusBar,
+  Button,
+  TouchableOpacity,
+
 } from 'react-native';
 
-export default class Home extends React.Component {
+import TagsList from '../components/TagsList';
+import TagsHeader from '../components/TagsHeader';
+
+
+export default class Home extends Component {
 
   render() {
+
+    const { navigation } = this.props;
+
+    navigation.setOptions({
+
+      headerRight: () => (
+        <Button
+          title='◉'
+          color='#fff'
+          onPress={() =>
+            navigation.navigate('Profile')
+          } />
+      ),
+    })
+
     return (
       <>
-        
+        <TagsHeader />
+        <TagsList navigation={navigation} />
       </>
     )
   }
-
 }
 
-// const Home: () => React$Node = () => {
-//   return (
-//     <>
-//       <StatusBar barStyle="dark-content" />
-//       <SafeAreaView>
 
-//       </SafeAreaView>
-//     </>
-//   );
+// const Home = ({ navigation }) => {
+
+//   navigation.setOptions({
+
+//     headerRight: () => (
+//       <Button
+//         title='O'
+//         color='#fff'
+//         onPress={() =>
+//           navigation.navigate('Profile')
+//         } />
+//     ),
+//   })
+
+// alert(this.props)
+//   return (
+//   <>
+
+//     <View>
+//       <Text>Hi</Text>
+//       <Button
+//         title="Profile"
+//         onPress={() =>
+//           navigation.navigate('Profile')
+//         }
+//       />
+
+//     </View>
+//   </>
+
+// )
+
 // };
 
 
