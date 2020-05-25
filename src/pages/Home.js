@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 
 import TagsList from '../components/TagsList';
-import TagsHeader from '../components/TagsHeader';
+import TagsHeader from '../components/WelcomeBannerPink';
 
 
 export default class Home extends Component {

@@ -13,12 +13,16 @@ import {
 } from 'react-native';
 
 import DiscussionList from '../components/DiscussionList';
+import WelcomeBannerBlue from '../components/WelcomeBannerBlue';
 
 export default class DiscussionListPage extends Component {
 
   render() {
     return (
-       <DiscussionList/>
+      <>
+        <WelcomeBannerBlue />
+        <DiscussionList />
+      </>
     )
   }
 }

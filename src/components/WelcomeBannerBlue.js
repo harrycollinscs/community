@@ -4,16 +4,12 @@ import { Component, View } from 'react';
 
 import { ActivityIndicator, StyleSheet, Text } from 'react-native';
 
-export default class TagsHeader extends Component {
+export default class WelcomeBannerBlue extends Component {
 
   render() {
 
-    // const { item } = this.props;
-
     return (
-      // <View >
         <Text style={styles.header}>Welcome to the giffgaff community</Text>
-      // </View>
     );
 
   }
@@ -21,7 +17,7 @@ export default class TagsHeader extends Component {
 
 const styles = StyleSheet.create({
   header: {
-    backgroundColor: '#eb5f8e',
+    backgroundColor: '#35adce',
     fontSize: 25,
     fontWeight: 'bold',
     padding: 15,

@@ -7,7 +7,7 @@ import { FlatList } from 'react-native-gesture-handler';
 
 import DiscussionListItem from './DiscussionListItem';
 
-export default class TagsList extends Component {
+export default class DiscussionList extends Component {
 
   constructor(props) {
     super(props);
@@ -16,7 +16,6 @@ export default class TagsList extends Component {
       discussions: [],
     }
 
-    // this.getDiscussionsFromApi();
   }
 
   componentDidMount() {
@@ -25,26 +24,12 @@ export default class TagsList extends Component {
         (res) => res.json()
       )
       .then((data) => {
-        console.log(data)
         this.setState({
           discussions: data['data'],
         });
       })
       .catch(console.log);
   }
-
-  //   async getDiscussionsFromApi() {
-  //   try {
-  //     let response = await fetch(
-  //       'https://community.giffgaff.com/api/discussions',
-  //     );
-  //     let responseJson = await response.json();
-  //     console.log(responseJson);
-  //     return responseJson;
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // }
 
   render() {
     if (this.state.discussions.length === 0) {
@@ -55,7 +40,10 @@ export default class TagsList extends Component {
 
     const dataKeys = discussions.map((discussions) => {
       return (
-        {key: discussions['attributes']}
+        {
+          key: discussions['id'],
+          attributes: discussions['attributes'],
+        }
       )
     })
 
@@ -65,13 +53,12 @@ export default class TagsList extends Component {
           renderItem={
             ({item}) => 
               <DiscussionListItem 
-              attributes={item.key}
+              key={item.key}
+              attributes={item.attributes}
               />
           }
         />
-
     )
 
-    return(<Text>Hi</Text>)
   }
 }
