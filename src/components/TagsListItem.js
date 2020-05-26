@@ -7,11 +7,19 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-cards';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
+import TimeAgo from 'javascript-time-ago';
+import en from 'javascript-time-ago/locale/en';
+
 export default class TagsListItem extends Component {
 
   render() {
 
-    const { item, navigation } = this.props;
+    const { navigation } = this.props;
+    const { name, description, discussionCount, lastPostedAt } = this.props.tag.attributes;
+
+    TimeAgo.addLocale(en)
+    const timeAgo = new TimeAgo('en-GB')
+    const lastPostedAtAgo = timeAgo.format(new Date(lastPostedAt));
 
     return (
       <TouchableOpacity onPress={() => navigation.navigate('Discussion List') }>
@@ -20,20 +28,20 @@ export default class TagsListItem extends Component {
         >
           <CardTitle
             style={styles.cardTitle}
-            title={item}
+            title={name}
             
           />
-          <CardContent text="Read the community guidelines and check out the latest announcements from giffgaff." />
+          <CardContent text={description} />
           <CardAction
             style={styles.cardAction}
             separator={true}
             inColumn={false}>
             <View>
               <Text style={styles.cardActionLastPosted}>
-                LATEST POST  |  A DAY AGO
+                LATEST POST  |  {lastPostedAtAgo.toUpperCase()}
               </Text>
               <Text style={styles.cardActionLastPostedTitle}>
-                2020 Charity Nominations - now open
+                Title of first post goes here
               </Text>
             </View>
             {/* <CardButton

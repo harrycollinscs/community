@@ -18,10 +18,12 @@ import WelcomeBannerBlue from '../components/WelcomeBannerBlue';
 export default class DiscussionListPage extends Component {
 
   render() {
+    const { navigation } = this.props;
+    
     return (
       <>
         <WelcomeBannerBlue />
-        <DiscussionList />
+        <DiscussionList navigation = {navigation}/>
       </>
     )
   }

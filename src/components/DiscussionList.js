@@ -25,7 +25,7 @@ export default class DiscussionList extends Component {
 
   getDiscussions() {
 
-    this.setState({isRefreshing: false});
+    this.setState({ isRefreshing: false });
 
     fetch("https://community.giffgaff.com/api/discussions")
       .then(
@@ -35,24 +35,24 @@ export default class DiscussionList extends Component {
         this.setState({
           discussions: data['data'],
         });
-        this.setState({isRefreshing: false});
+        this.setState({ isRefreshing: false });
       })
       .catch(console.log);
   }
 
   render() {
+    const { navigation } = this.props;
+    const discussions = this.state.discussions;
 
-    if (this.state.discussions.length === 0) {
+    if (discussions.length === 0) {
       return <ActivityIndicator />
     }
 
-    const discussions = this.state.discussions;
-
-    const dataKeys = discussions.map((discussions) => {
+    const dataKeys = discussions.map((discussion) => {
       return (
         {
-          key: discussions['id'],
-          attributes: discussions['attributes'],
+          key: discussion['id'],
+          discussion: discussion,
         }
       )
     })
@@ -60,14 +60,15 @@ export default class DiscussionList extends Component {
     return (
       <FlatList
         refreshControl={
-          <RefreshControl refreshing={this.state.isRefreshing} onRefresh={() => {this.getDiscussions()}} />
+          <RefreshControl refreshing={this.state.isRefreshing} onRefresh={() => { this.getDiscussions() }} />
         }
         data={dataKeys}
         renderItem={
           ({ item }) =>
             <DiscussionListItem
               key={item.key}
-              attributes={item.attributes}
+              discussion={item.discussion}
+              navigation={navigation}
             />
         }
       />

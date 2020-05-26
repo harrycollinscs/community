@@ -20,47 +20,55 @@ export default class TagsList extends Component {
   }
 
   componentDidMount() {
-    const proxyurl = "https://cors-anywhere.herokuapp.com/";
-    const url = "https://community.giffgaff.com/api/tags";
-    fetch(proxyurl + url)
-    // .then(
-    //   res => res.json()
-    // )
-      
+    this.getTags();
+  }
+
+  getTags() {
+
+    this.setState({ isRefreshing: false });
+
+    fetch("https://community.giffgaff.com/api/tags")
+      .then(
+        (res) => res.json()
+      )
       .then((data) => {
         this.setState({
-          tags: data,
+          tags: data['data'],
         });
+        this.setState({ isRefreshing: false });
       })
       .catch(console.log);
   }
-  
+
   render() {
     const { navigation } = this.props;
+    const tags = this.state.tags;
 
-    if (this.state.tags.length === 0 ) {
-      return <ActivityIndicator/>
+    if (tags.length === 0) {
+      return <ActivityIndicator />
     }
 
-    const dummy = this.state.dummy;
-
-    const dataKeys = dummy.map((dummy) => {
+    const dataKeys = tags.map((tag) => {
       return (
-        {key: dummy}
+        {
+          key: tag['id'],
+          tag: tag,
+        }
       )
     })
 
     return (
-        <FlatList
-          data={dataKeys}
-          renderItem={
-            ({item}) => 
-              <TagsListItem 
-              item={item.key}
+      <FlatList
+        data={dataKeys}
+        renderItem={
+          ({ item }) =>
+            <TagsListItem
+              key={item.key}
+              tag={item.tag}
               navigation={navigation}
-              />
-          }
-        />
+            />
+        }
+      />
 
     )
 

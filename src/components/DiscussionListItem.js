@@ -18,7 +18,12 @@ export default class DiscussionListItem extends Component {
   render() {
 
     const { navigation } = this.props;
-    const { title, commentCount, views, createdAt, lastPostedAt, isSticky } = this.props.attributes;
+    const discussionId = this.props.discussion['id'];
+    const { title, commentCount, views, createdAt, lastPostedAt, isSticky } = this.props.discussion.attributes;
+  
+    const excerptText = "Hi lovely giffgaffers, Every six months, we get together to select charities to donate to from your hard-earned Payback. This year, with everything going on, it seems more implementing is necessary and thus we will be looking into";
+    const rand = Math.floor((Math.random() * 140) + 50);
+    const trimmedExcerpt = excerptText.substring(0, rand) + "...";
 
     TimeAgo.addLocale(en)
     const timeAgo = new TimeAgo('en-GB')
@@ -28,38 +33,42 @@ export default class DiscussionListItem extends Component {
     const excerpt = <View></View>
 
     return (
-      // <TouchableOpacity onPress={() => navigation.navigate('Discussion List')}>
-      <View style={styles.discussion}>
-        <View style={styles.header}>
-          <Text style={styles.username}>hxrrycollins</Text>
-          <Text style={styles.createdAt}>{createdAtAgo}</Text>
+      <TouchableOpacity onPress={() => navigation.navigate('Discussion', { discussionId: discussionId, discussionTitle: title })}>
+        <View style={styles.discussion}>
+          <View style={styles.header}>
+            <Text style={styles.username}>hxrrycollins</Text>
+            <Text style={styles.createdAt}>{createdAtAgo}</Text>
+          </View>
+
+          <View style={styles.content}>
+            <Text style={styles.title}>
+              {title}
+            </Text>
+            {/* {isSticky ?
+              <Text style={styles.excerpt}>
+                Hi lovely giffgaffers, Every six months, we get together to select charities to donate to from your hard-earned Payback. This year, with everything going on, it seems more imp...
+              </Text> :
+              <></>} */}
+            <Text>
+              {trimmedExcerpt}
+            </Text>
+
+          </View>
+
+
+          <View style={styles.footer}>
+            <Text style={styles.commentCount}>
+              Comments: {commentCount.toString()}
+            </Text>
+
+            <Text style={styles.views}>
+              Views: {views.toString()}
+            </Text>
+
+          </View>
+
         </View>
-
-        <View style={styles.content}>
-          <Text style={styles.title}>
-            {title}
-          </Text>
-          {isSticky ?
-            <Text style={styles.excerpt}>
-              Hi lovely giffgaffers, Every six months, we get together to select charities to donate to from your hard-earned Payback. This year, with everything going on, it seems more imp...
-          </Text> :
-            <></>}
-        </View>
-
-
-        <View style={styles.footer}>
-          <Text style={styles.commentCount}>
-            Comments: {commentCount.toString()}
-          </Text>
-          
-          <Text style={styles.views}>
-            Views: {views.toString()}
-          </Text>
-
-        </View>
-
-      </View>
-      // </TouchableOpacity>
+      </TouchableOpacity>
     );
 
   }
@@ -68,7 +77,7 @@ export default class DiscussionListItem extends Component {
 const styles = StyleSheet.create({
   discussion: {
     backgroundColor: '#fff',
-    borderWidth: 1,
+    borderBottomWidth: 2,
     borderColor: '#f5f5f5',
     padding: 5,
   },
@@ -99,8 +108,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 18,
     marginBottom: 5,
-    // marginLeft: 15,
-    // marginRight: 15,
   },
   excerpt: {
     // marginLeft: 15,

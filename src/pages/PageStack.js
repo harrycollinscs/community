@@ -7,6 +7,8 @@ import { Button } from 'react-native';
 import Home from './Home';
 import Profile from './Profile';
 import DiscussionListPage from './DiscussionListPage';
+import Discussion from './Discussion';
+import { Icon } from 'react-native-vector-icons';
 
 const Stack = createStackNavigator();
 
@@ -48,6 +50,17 @@ const  PageStack = () => {
           component={ DiscussionListPage }
           options={{ 
             title: 'Discussion List',
+            headerStyle: {
+              backgroundColor: '#000',
+            },
+            headerTintColor: '#fff',
+           }}
+        />
+        <Stack.Screen
+          name="Discussion"
+          component={ Discussion }
+          options={{ 
+            title: 'Discussion',
             headerStyle: {
               backgroundColor: '#000',
             },
