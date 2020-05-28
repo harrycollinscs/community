@@ -25,6 +25,9 @@ const PageStack = () => {
               backgroundColor: '#000',
             },
             headerTintColor: '#fff',
+            headerTitleStyle: {
+                fontFamily: 'Gill Sans'
+            },
             headerRight: () => (
               <Button
                 title='Profile'

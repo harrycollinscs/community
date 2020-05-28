@@ -2,10 +2,9 @@ import 'react-native-gesture-handler';
 import * as React from 'react';
 import { Component } from 'react';
 
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
 
 import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-cards';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en';
@@ -22,8 +21,11 @@ export default class TagsListItem extends Component {
     const lastPostedAtAgo = timeAgo.format(new Date(lastPostedAt));
 
     return (
-      <TouchableOpacity onPress={() => navigation.navigate('Discussion List', { tagSlug: slug })}>
-        <View style={styles.card}>
+
+      <TouchableHighlight
+        onPress={() => navigation.navigate('Discussion List', { title: name, tagSlug: slug })}
+        style={styles.card}>
+        <View style={styles.container}>
           <View style={styles.content}>
             <Text style={styles.title}>
               {name}
@@ -33,25 +35,30 @@ export default class TagsListItem extends Component {
             </Text>
           </View>
           <View style={styles.cardAction} >
-              <Text style={styles.cardActionLastPosted}>
-                LATEST POST  |  {lastPostedAtAgo.toUpperCase()}
-              </Text>
-              <Text style={styles.cardActionLastPostedTitle}>
-                Title of first post goes here
+            <Text style={styles.cardActionLastPosted}>
+              LATEST POST  |  {lastPostedAtAgo.toUpperCase()}
+            </Text>
+            <Text style={styles.cardActionLastPostedTitle}>
+              Title of first post goes here
               </Text>
           </View>
         </View>
-      </TouchableOpacity>
+      </TouchableHighlight>
+
     );
 
   }
 }
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: '#ffffff'
+  },
   card: {
     borderWidth: 1,
     margin: 5,
     borderRadius: 2,
+    backgroundColor: '#ffffff',
   },
   content: {
     margin: 10,

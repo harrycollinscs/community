@@ -7,14 +7,10 @@ import { StyleSheet, Text } from 'react-native';
 export default class DiscussionListBanner extends Component {
 
   render() {
-    const { tagSlug } = this.props;
-
-    const tagTitle = tagSlug
-      .replace(/-/g, ' ')
-      .replace(/^./, function (x) { return x.toUpperCase() })
+    const { title } = this.props;
 
     return (
-        <Text style={styles.header}>{ tagTitle }</Text>
+        <Text style={styles.header}>{ title }</Text>
     );
 
   }

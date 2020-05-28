@@ -2,7 +2,7 @@ import 'react-native-gesture-handler';
 import * as React from 'react';
 import { View, Component } from 'react';
 
-import { ActivityIndicator, Text, ListView, RefreshControl, } from 'react-native';
+import { ActivityIndicator, Text, ListView, RefreshControl, StyleSheet} from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 
 import DiscussionListItem from './DiscussionListItem';
@@ -16,7 +16,6 @@ export default class DiscussionList extends Component {
       isRefreshing: false,
       discussions: [],
     }
-
   }
 
   componentDidMount() {
@@ -26,7 +25,6 @@ export default class DiscussionList extends Component {
   getDiscussions() {
     const url = 'https://community.giffgaff.com/api/discussions?include=user%2ClastPostedUser%2Ctags%2CfirstPost%2Cpoll%2CrecipientUsers%2CrecipientGroups';
     const tagFilter = `&filter%5Bq%5D=+tag%3A${this.props.tagSlug}`
-    console.log(tagFilter)
 
     this.setState({ isRefreshing: false });
 
@@ -51,14 +49,16 @@ export default class DiscussionList extends Component {
       return <ActivityIndicator />
     }
 
-    const dataKeys = discussions.map((discussion) => {
-      return (
-        {
-          key: discussion['id'],
-          discussion: discussion,
-        }
-      )
-    })
+    const dataKeys = discussions
+      .filter((discussion) => discussion['type'] === 'discussions')
+      .map((discussion) => {
+        return (
+          {
+            key: discussion['id'],
+            discussion: discussion,
+          }
+        )
+      })
 
     return (
       <FlatList
@@ -76,6 +76,6 @@ export default class DiscussionList extends Component {
         }
       />
     )
-
   }
 }
+

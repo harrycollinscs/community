@@ -43,6 +43,7 @@ export default class PostList extends Component {
 
   render() {
     const posts = this.state.posts;
+    const { discussionTitle, navigation } = this.props;
 
     if (posts.length === 0) {
       return <ActivityIndicator />
@@ -51,13 +52,12 @@ export default class PostList extends Component {
     const dataKeys = posts
       .filter(post => post['type'] === 'posts')
       .map((post) => {
-        const postAttributes = post['attributes'];
-        const key = postAttributes['number'].toString();
+        const key = post['attributes']['number'].toString();
 
         return (
           {
             key: key,
-            post: postAttributes,
+            post: post,
           }
         )
       });
@@ -73,7 +73,8 @@ export default class PostList extends Component {
             <PostListItem
               key={item.key}
               post={item.post}
-              discussionTitle={this.props.discussionTitle}
+              discussionTitle={discussionTitle}
+              navigation={navigation}
             />
         }
       />

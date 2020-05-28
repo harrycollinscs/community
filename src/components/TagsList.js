@@ -24,7 +24,6 @@ export default class TagsList extends Component {
   }
 
   getTags() {
-
     this.setState({ isRefreshing: false });
 
     fetch("https://community.giffgaff.com/api/tags")

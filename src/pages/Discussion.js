@@ -17,9 +17,13 @@ import PostList from '../components/PostList';
 export default class Discussion extends Component {
 
   render() {
+    const { navigation } = this.props;
     const { discussionId, discussionTitle } = this.props.route.params;
     return (
-      <PostList discussionId={discussionId} discussionTitle={discussionTitle}/>
+      <PostList
+        navigation={navigation}
+        discussionId={discussionId}
+        discussionTitle={discussionTitle} />
     )
   }
 }

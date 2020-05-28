@@ -2,25 +2,61 @@ import 'react-native-gesture-handler';
 import * as React from 'react';
 import { Component } from 'react';
 
-import { StyleSheet, Text, View, Button, TouchableOpacity } from 'react-native';
-
-// import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-cards';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Button,
+  Image,
+  TouchableHighlight,
+  TouchableWithoutFeedback
+} from 'react-native';
 
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCoffee } from '@fortawesome/free-solid-svg-icons';
-
-import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default class DiscussionListItem extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      member: null,
+    }
+  }
+
+  componentDidMount() {
+    this.getMember();
+  }
+
+  getMember() {
+    const { user } = this.props.discussion.relationships;
+    const memberId = user['data']['id'];
+    const url = 'https://community.giffgaff.com/api/users/';
+
+    fetch(url + memberId)
+      .then(
+        (res) => res.json()
+      )
+      .then((data) => {
+        this.setState({
+          member: data['data'],
+        });
+      })
+      .catch(console.log);
+  }
 
   render() {
+    if (!this.state.member) {
+      return null;
+    }
 
-    const { navigation } = this.props;
+    const { navigation, discussion } = this.props;
     const discussionId = this.props.discussion['id'];
-    const { title, commentCount, views, createdAt, lastPostedAt, isSticky } = this.props.discussion.attributes;
-  
+    const { title, commentCount, views, createdAt, lastPostedAt, isSticky } = discussion.attributes;
+
+    const { attributes } = this.state.member;
+    const { displayName, avatarUrl } = attributes;
+
     const excerptText = "Hi lovely giffgaffers, Every six months, we get together to select charities to donate to from your hard-earned Payback. This year, with everything going on, it seems more implementing is necessary and thus we will be looking into";
     const rand = Math.floor((Math.random() * 140) + 50);
     const trimmedExcerpt = excerptText.substring(0, rand) + "...";
@@ -30,45 +66,49 @@ export default class DiscussionListItem extends Component {
     const createdAtAgo = timeAgo.format(new Date(createdAt));
     const lastPostedAtAgo = timeAgo.format(new Date(lastPostedAt));
 
-    const excerpt = <View></View>
-
     return (
-      <TouchableOpacity onPress={() => navigation.navigate('Discussion', { discussionId: discussionId, discussionTitle: title })}>
+      <TouchableHighlight onPress={() => navigation.navigate('Discussion', { discussionId: discussionId, discussionTitle: title })}>
         <View style={styles.discussion}>
-          <View style={styles.header}>
-            <Text style={styles.username}>hxrrycollins</Text>
-            <Text style={styles.createdAt}>{createdAtAgo}</Text>
+
+          <View style={styles.iconContainer}>
+            <Image
+              style={styles.memberIcon}
+              source={{
+                uri: avatarUrl
+              }}
+            />
           </View>
+          
+          <View style={styles.discussionText}>
+            <View style={styles.header}>
+              <TouchableWithoutFeedback onPress={() => navigation.navigate('Profile', { memberId: memberId })}>
+                <Text style={styles.username}>{displayName}</Text>
+              </TouchableWithoutFeedback>
+              <Text style={styles.createdAt}>{createdAtAgo}</Text>
+            </View>
 
-          <View style={styles.content}>
-            <Text style={styles.title}>
-              {title}
-            </Text>
-            {/* {isSticky ?
-              <Text style={styles.excerpt}>
-                Hi lovely giffgaffers, Every six months, we get together to select charities to donate to from your hard-earned Payback. This year, with everything going on, it seems more imp...
-              </Text> :
-              <></>} */}
-            <Text>
-              {trimmedExcerpt}
-            </Text>
+            <View style={styles.content}>
+              <Text style={styles.title}>
+                {title}
+              </Text>
+              <Text>
+                {trimmedExcerpt}
+              </Text>
+            </View>
 
-          </View>
+            <View style={styles.footer}>
+              <Text style={styles.commentCount}>
+                Comments: {commentCount.toString()}
+              </Text>
 
-
-          <View style={styles.footer}>
-            <Text style={styles.commentCount}>
-              Comments: {commentCount.toString()}
-            </Text>
-
-            <Text style={styles.views}>
-              Views: {views.toString()}
-            </Text>
-
+              <Text style={styles.views}>
+                Views: {views.toString()}
+              </Text>
+            </View>
           </View>
 
         </View>
-      </TouchableOpacity>
+      </TouchableHighlight>
     );
 
   }
@@ -76,10 +116,36 @@ export default class DiscussionListItem extends Component {
 
 const styles = StyleSheet.create({
   discussion: {
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'flex-start',
+    alignItems: 'center',
     backgroundColor: '#fff',
     borderBottomWidth: 2,
     borderColor: '#f5f5f5',
-    padding: 5,
+  },
+  iconContainer: {
+    height: '100%',
+    width: '18%',
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    paddingLeft: 10,
+    paddingTop: 20,
+  },
+  memberIcon: {
+    borderRadius: 50,
+    flex: 1,
+    aspectRatio: 1,
+    justifyContent: 'flex-start',
+  },
+  discussionText: {
+    width: '82%',
+    marginRight: 20,
+    marginTop: 10,
+    textAlign: 'left',
+    justifyContent: 'space-evenly'
   },
   header: {
     flex: 1,

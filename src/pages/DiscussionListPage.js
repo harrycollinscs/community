@@ -13,18 +13,16 @@ import {
 } from 'react-native';
 
 import DiscussionList from '../components/DiscussionList';
-import WelcomeBannerBlue from '../components/WelcomeBannerBlue';
 import DiscussionListBanner from '../components/DiscussionListBanner';
 
 export default class DiscussionListPage extends Component {
 
   render() {
     const { navigation } = this.props;
-    const { tagSlug } = this.props.route.params;
-    console.log(tagSlug)
+    const { title, tagSlug } = this.props.route.params;
     return (
       <>
-        <DiscussionListBanner tagSlug={tagSlug} />
+        <DiscussionListBanner title={title} />
         <DiscussionList 
           navigation={navigation} 
           tagSlug={tagSlug}
