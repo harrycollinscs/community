@@ -14,16 +14,21 @@ import {
 
 import DiscussionList from '../components/DiscussionList';
 import WelcomeBannerBlue from '../components/WelcomeBannerBlue';
+import DiscussionListBanner from '../components/DiscussionListBanner';
 
 export default class DiscussionListPage extends Component {
 
   render() {
     const { navigation } = this.props;
-    
+    const { tagSlug } = this.props.route.params;
+    console.log(tagSlug)
     return (
       <>
-        <WelcomeBannerBlue />
-        <DiscussionList navigation = {navigation}/>
+        <DiscussionListBanner tagSlug={tagSlug} />
+        <DiscussionList 
+          navigation={navigation} 
+          tagSlug={tagSlug}
+        />
       </>
     )
   }

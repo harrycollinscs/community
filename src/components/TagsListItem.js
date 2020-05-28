@@ -15,48 +15,32 @@ export default class TagsListItem extends Component {
   render() {
 
     const { navigation } = this.props;
-    const { name, description, discussionCount, lastPostedAt } = this.props.tag.attributes;
+    const { name, description, discussionCount, lastPostedAt, slug } = this.props.tag.attributes;
 
     TimeAgo.addLocale(en)
     const timeAgo = new TimeAgo('en-GB')
     const lastPostedAtAgo = timeAgo.format(new Date(lastPostedAt));
 
     return (
-      <TouchableOpacity onPress={() => navigation.navigate('Discussion List') }>
-        <Card 
-        style={styles.card}
-        >
-          <CardTitle
-            style={styles.cardTitle}
-            title={name}
-            
-          />
-          <CardContent text={description} />
-          <CardAction
-            style={styles.cardAction}
-            separator={true}
-            inColumn={false}>
-            <View>
+      <TouchableOpacity onPress={() => navigation.navigate('Discussion List', { tagSlug: slug })}>
+        <View style={styles.card}>
+          <View style={styles.content}>
+            <Text style={styles.title}>
+              {name}
+            </Text>
+            <Text style={styles.description}>
+              {description}
+            </Text>
+          </View>
+          <View style={styles.cardAction} >
               <Text style={styles.cardActionLastPosted}>
                 LATEST POST  |  {lastPostedAtAgo.toUpperCase()}
               </Text>
               <Text style={styles.cardActionLastPostedTitle}>
                 Title of first post goes here
               </Text>
-            </View>
-            {/* <CardButton
-              style={styles.cardButton}
-              onPress={() => { }}
-              title="Share"
-              color="#fcc31e"
-            />
-            <CardButton
-              onPress={() => { }}
-              title="Explore"
-              color="#fcc31e"
-            /> */}
-          </CardAction>
-        </Card>
+          </View>
+        </View>
       </TouchableOpacity>
     );
 
@@ -66,9 +50,25 @@ export default class TagsListItem extends Component {
 const styles = StyleSheet.create({
   card: {
     borderWidth: 1,
+    margin: 5,
+    borderRadius: 2,
   },
-  cardTitle: {
-    // fontWeight: 'bold',
+  content: {
+    margin: 10,
+    marginLeft: 15,
+    marginRight: 15,
+  },
+  title: {
+    fontWeight: 'bold',
+    fontSize: 22,
+    marginBottom: 10,
+    marginTop: 10,
+  },
+  description: {
+    color: 'grey',
+    fontWeight: 'bold',
+    paddingTop: 10,
+    paddingBottom: 10,
   },
   cardAction: {
     backgroundColor: '#000',

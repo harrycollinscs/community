@@ -12,13 +12,13 @@ import { Icon } from 'react-native-vector-icons';
 
 const Stack = createStackNavigator();
 
-const  PageStack = () => {
+const PageStack = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
           name="Home"
-          component={ Home }
+          component={Home}
           options={{
             title: 'Community',
             headerStyle: {
@@ -27,45 +27,44 @@ const  PageStack = () => {
             headerTintColor: '#fff',
             headerRight: () => (
               <Button
-              title='Profile'
-              color='#fff'/>
+                title='Profile'
+                color='#fff' />
             ),
           }}
 
         />
         <Stack.Screen
           name="Profile"
-          component={ Profile }
-          options={{ 
+          component={Profile}
+          options={{
             title: 'Profile',
             headerStyle: {
-              backgroundColor: '#000',
+              backgroundColor: '#000000',
             },
             headerTintColor: '#fff',
-
-           }}
+          }}
         />
         <Stack.Screen
           name="Discussion List"
-          component={ DiscussionListPage }
-          options={{ 
-            title: 'Discussion List',
+          component={DiscussionListPage}
+          options={{
+            title: '',
             headerStyle: {
               backgroundColor: '#000',
             },
             headerTintColor: '#fff',
-           }}
+          }}
         />
         <Stack.Screen
           name="Discussion"
-          component={ Discussion }
-          options={{ 
-            title: 'Discussion',
+          component={Discussion}
+          options={{
+            title: '',
             headerStyle: {
               backgroundColor: '#000',
             },
             headerTintColor: '#fff',
-           }}
+          }}
         />
       </Stack.Navigator>
     </NavigationContainer>

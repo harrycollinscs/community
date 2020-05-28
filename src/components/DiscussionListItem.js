@@ -110,10 +110,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   excerpt: {
-    // marginLeft: 15,
-    // marginRight: 15,
     fontSize: 14,
-    // backgroundColor: '#f5f5f5',
   },
   footer: {
     flex: 1,

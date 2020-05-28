@@ -48,7 +48,9 @@ export default class TagsList extends Component {
       return <ActivityIndicator />
     }
 
-    const dataKeys = tags.map((tag) => {
+    const dataKeys = tags
+    .filter(tag => tag['type'] === 'tags' && !tag.attributes['isChild'])
+    .map((tag) => {
       return (
         {
           key: tag['id'],

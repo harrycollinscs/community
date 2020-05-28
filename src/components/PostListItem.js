@@ -20,7 +20,7 @@ export default class PostListItem extends Component {
     const editedAtAgo = timeAgo.format(new Date(createdAt));
 
     return (
-      <View style={styles.discussion}>
+      <View style={isFirstPost ? styles.firstPost : styles.post}>
         <View style={styles.header}>
           <Text style={styles.username}>hxrrycollins</Text>
           <Text style={styles.createdAt}>
@@ -47,7 +47,13 @@ export default class PostListItem extends Component {
 }
 
 const styles = StyleSheet.create({
-  discussion: {
+  firstPost: {
+    backgroundColor: '#f5f5f5',
+    borderBottomWidth: 4,
+    borderColor: '#f5f5f5',
+    padding: 5,
+  },
+  post: {
     backgroundColor: '#fff',
     borderBottomWidth: 4,
     borderColor: '#f5f5f5',
