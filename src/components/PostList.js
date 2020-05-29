@@ -26,7 +26,7 @@ export default class PostList extends Component {
   getPosts() {
     const discussionId = this.props.discussionId;
 
-    this.setState({ isRefreshing: false });
+    this.setState({ isRefreshing: true });
 
     fetch("https://community.giffgaff.com/api/discussions/" + discussionId)
       .then(
@@ -39,6 +39,16 @@ export default class PostList extends Component {
         this.setState({ isRefreshing: false });
       })
       .catch(console.log);
+  }
+
+  refresh() {
+    this.setState({ 
+      isRefreshing: true,
+      posts: [],
+      currentUrl: this.state.firstUrl,
+    });
+
+    this.getPosts();
   }
 
   render() {

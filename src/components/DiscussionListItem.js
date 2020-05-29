@@ -53,12 +53,15 @@ export default class DiscussionListItem extends Component {
     const { navigation, discussion } = this.props;
     const discussionId = this.props.discussion['id'];
     const { title, commentCount, views, createdAt, lastPostedAt, isSticky } = discussion.attributes;
+    const { user } = this.props.discussion.relationships;
+    const memberId = user['data']['id'];
 
     const { attributes } = this.state.member;
     const { displayName, avatarUrl } = attributes;
 
     const excerptText = "Hi lovely giffgaffers, Every six months, we get together to select charities to donate to from your hard-earned Payback. This year, with everything going on, it seems more implementing is necessary and thus we will be looking into";
-    const rand = Math.floor((Math.random() * 140) + 50);
+    // const rand = Math.floor((Math.random() * 140) + 50);
+    const rand = 140;
     const trimmedExcerpt = excerptText.substring(0, rand) + "...";
 
     TimeAgo.addLocale(en)
@@ -136,6 +139,8 @@ const styles = StyleSheet.create({
   },
   memberIcon: {
     borderRadius: 50,
+    borderWidth: 1,
+    borderColor: '#f5f5f5',
     flex: 1,
     aspectRatio: 1,
     justifyContent: 'flex-start',
@@ -157,8 +162,8 @@ const styles = StyleSheet.create({
     marginRight: 15,
   },
   username: {
-    color: 'grey',
     width: '60%',
+    fontWeight: 'bold',
   },
   createdAt: {
     textAlign: 'right',

@@ -1,8 +1,8 @@
 import 'react-native-gesture-handler';
 import * as React from 'react';
-import { View, Component } from 'react';
+import { Component } from 'react';
 
-import { ActivityIndicator, Text, ListView, RefreshControl, StyleSheet} from 'react-native';
+import { ActivityIndicator, Text, RefreshControl, StyleSheet} from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 
 import DiscussionListItem from './DiscussionListItem';
@@ -12,33 +12,70 @@ export default class DiscussionList extends Component {
   constructor(props) {
     super(props);
 
+    this.firstUrl = null;
+    this.currentUrl = null;
+    this.nextUrl = null;
+
     this.state = {
       isRefreshing: false,
+      isLoading: false,
       discussions: [],
     }
   }
 
   componentDidMount() {
-    this.getDiscussions();
+
+    const { tagSlug } = this.props;
+    const url = 'https://community.giffgaff.com/api/discussions?include=user%2ClastPostedUser%2Ctags%2CfirstPost%2Cpoll%2CrecipientUsers%2CrecipientGroups';
+    const tagFilter = `&filter%5Bq%5D=+tag%3A${tagSlug}`
+    const endpointUrl = url+tagFilter;
+
+    this.firstUrl = endpointUrl;
+
+    this.getDiscussions(this.firstUrl);
   }
 
-  getDiscussions() {
-    const url = 'https://community.giffgaff.com/api/discussions?include=user%2ClastPostedUser%2Ctags%2CfirstPost%2Cpoll%2CrecipientUsers%2CrecipientGroups';
-    const tagFilter = `&filter%5Bq%5D=+tag%3A${this.props.tagSlug}`
+  getDiscussions(url) {
+    if(url === undefined || (this.currentUrl === this.nextUrl && this.currentUrl!=null)) { return }
 
-    this.setState({ isRefreshing: false });
+    this.setState({ isLoading: true })
 
-    fetch(url + tagFilter)
+    fetch(url)
       .then(
         (res) => res.json()
       )
       .then((data) => {
+
+        const discussions = this.state.discussions.concat(data['data']);
+
+        this.currentUrl = data['links']['next'];
+
         this.setState({
-          discussions: data['data'],
+          isRefreshing: false,
+          isLoading: false,
+          discussions: discussions,
         });
-        this.setState({ isRefreshing: false });
       })
+      
       .catch(console.log);
+  }
+
+  scroll() {
+    if(this.state.isLoading) { return }
+    this.getDiscussions(this.currentUrl);
+  }
+
+
+  refresh() {
+    this.setState({ 
+      isRefreshing: true,
+      discussions: [],
+    });
+
+    this.currentUrl = this.state.firstUrl,
+    this.nextUrl = null;
+
+    this.getDiscussions(this.currentUrl);
   }
 
   render() {
@@ -63,9 +100,12 @@ export default class DiscussionList extends Component {
     return (
       <FlatList
         refreshControl={
-          <RefreshControl refreshing={this.state.isRefreshing} onRefresh={() => { this.getDiscussions() }} />
+          <RefreshControl refreshing={this.state.isRefreshing} onRefresh={() => { this.refresh() }} />
         }
+        onEndReachedThreshold={0.1}
+        onEndReached={() => this.scroll()}
         data={dataKeys}
+        ListFooterComponent={this.state.isLoading && <ActivityIndicator />}
         renderItem={
           ({ item }) =>
             <DiscussionListItem
@@ -78,4 +118,5 @@ export default class DiscussionList extends Component {
     )
   }
 }
+
 

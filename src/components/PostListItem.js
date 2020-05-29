@@ -141,6 +141,8 @@ const styles = StyleSheet.create({
   },
   memberIcon: {
     borderRadius: 50,
+    borderWidth: 1,
+    borderColor: '#f5f5f5',
     flex: 1,
     aspectRatio: 1,
     justifyContent: 'flex-start',
@@ -162,8 +164,8 @@ const styles = StyleSheet.create({
     marginRight: 15,
   },
   username: {
-    color: 'grey',
     width: '60%',
+    fontWeight: 'bold'
   },
   createdAt: {
     textAlign: 'right',
