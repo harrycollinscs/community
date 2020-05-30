@@ -69,10 +69,9 @@ export default class DiscussionList extends Component {
   refresh() {
     this.setState({ 
       isRefreshing: true,
-      discussions: [],
     });
 
-    this.currentUrl = this.state.firstUrl,
+    this.currentUrl = this.firstUrl,
     this.nextUrl = null;
 
     this.getDiscussions(this.currentUrl);

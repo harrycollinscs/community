@@ -53,6 +53,7 @@ export default class Profile extends Component {
         <MemberProfileBanner 
           attributes={attributes}
         />
+        <Text> idk we gonna put some content here cba rn </Text>
       </>
     )
   }

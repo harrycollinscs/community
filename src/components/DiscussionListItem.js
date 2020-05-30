@@ -74,14 +74,16 @@ export default class DiscussionListItem extends Component {
         <View style={styles.discussion}>
 
           <View style={styles.iconContainer}>
-            <Image
-              style={styles.memberIcon}
-              source={{
-                uri: avatarUrl
-              }}
-            />
+            <TouchableWithoutFeedback onPress={() => navigation.navigate('Profile', { memberId: memberId })}>
+              <Image
+                style={styles.memberIcon}
+                source={{
+                  uri: avatarUrl
+                }}
+              />
+            </TouchableWithoutFeedback>
           </View>
-          
+
           <View style={styles.discussionText}>
             <View style={styles.header}>
               <TouchableWithoutFeedback onPress={() => navigation.navigate('Profile', { memberId: memberId })}>
