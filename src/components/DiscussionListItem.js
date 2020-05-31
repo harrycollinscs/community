@@ -39,7 +39,7 @@ export default class DiscussionListItem extends Component {
       )
       .then((data) => {
         this.setState({
-          member: data['data'],
+          member: data,
         });
       })
       .catch(console.log);
@@ -56,11 +56,16 @@ export default class DiscussionListItem extends Component {
     const { user } = this.props.discussion.relationships;
     const memberId = user['data']['id'];
 
-    const { attributes } = this.state.member;
+    const memberHasGroup = this.state.member['included'] !== undefined;
+    let iconBorderColor = '#e9e9e9';
+    if (memberHasGroup) {
+      iconBorderColor = this.state.member['included'][0]['attributes']['color'];
+    }
+
+    const { attributes } = this.state.member['data'];
     const { displayName, avatarUrl } = attributes;
 
     const excerptText = "Hi lovely giffgaffers, Every six months, we get together to select charities to donate to from your hard-earned Payback. This year, with everything going on, it seems more implementing is necessary and thus we will be looking into";
-    // const rand = Math.floor((Math.random() * 140) + 50);
     const rand = 140;
     const trimmedExcerpt = excerptText.substring(0, rand) + "...";
 
@@ -74,9 +79,10 @@ export default class DiscussionListItem extends Component {
         <View style={styles.discussion}>
 
           <View style={styles.iconContainer}>
-            <TouchableWithoutFeedback onPress={() => navigation.navigate('Profile', { memberId: memberId })}>
+            <TouchableWithoutFeedback
+              onPress={() => navigation.navigate('Profile', { memberId: memberId })}>
               <Image
-                style={styles.memberIcon}
+                style={ [styles.memberIcon, memberHasGroup ? { 'borderColor': iconBorderColor } : { 'borderColor': iconBorderColor }] }
                 source={{
                   uri: avatarUrl
                 }}
@@ -86,7 +92,8 @@ export default class DiscussionListItem extends Component {
 
           <View style={styles.discussionText}>
             <View style={styles.header}>
-              <TouchableWithoutFeedback onPress={() => navigation.navigate('Profile', { memberId: memberId })}>
+              <TouchableWithoutFeedback
+                onPress={() => navigation.navigate('Profile', { memberId: memberId })}>
                 <Text style={styles.username}>{displayName}</Text>
               </TouchableWithoutFeedback>
               <Text style={styles.createdAt}>{createdAtAgo}</Text>
@@ -141,8 +148,7 @@ const styles = StyleSheet.create({
   },
   memberIcon: {
     borderRadius: 50,
-    borderWidth: 1,
-    borderColor: '#f5f5f5',
+    borderWidth: 2,
     flex: 1,
     aspectRatio: 1,
     justifyContent: 'flex-start',

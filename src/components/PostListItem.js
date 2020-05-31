@@ -38,7 +38,7 @@ export default class PostListItem extends Component {
       )
       .then((data) => {
         this.setState({
-          member: data['data'],
+          member: data,
         });
       })
       .catch(console.log);
@@ -54,8 +54,16 @@ export default class PostListItem extends Component {
     const memberId = post.relationships.user.data.id;
     const isFirstPost = number === 1;
 
-    const { attributes } = this.state.member;
+
+    const { attributes } = this.state.member['data'];
     const { displayName, avatarUrl } = attributes;
+
+    const memberHasGroup = this.state.member['included'] !== undefined;
+    let iconBorderColor = '#e9e9e9';
+    if (memberHasGroup) {
+      iconBorderColor = this.state.member['included'][0]['attributes']['color'];
+    }
+
 
     TimeAgo.addLocale(en)
     const timeAgo = new TimeAgo('en-GB')
@@ -67,7 +75,7 @@ export default class PostListItem extends Component {
 
         <View style={styles.iconContainer}>
           <Image
-            style={styles.memberIcon}
+            style={ [styles.memberIcon, memberHasGroup ? { 'borderColor': iconBorderColor } : { 'borderColor': iconBorderColor }]}
             source={{
               uri: avatarUrl
             }}
@@ -141,7 +149,7 @@ const styles = StyleSheet.create({
   },
   memberIcon: {
     borderRadius: 50,
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: '#f5f5f5',
     flex: 1,
     aspectRatio: 1,

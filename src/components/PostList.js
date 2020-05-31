@@ -21,7 +21,7 @@ export default class PostList extends Component {
       isLoading: false,
       posts: [],
       postIds: [],
-      range: [0, 20],
+      range: [],
     }
 
   }
@@ -46,9 +46,13 @@ export default class PostList extends Component {
           return post['id'];
         });
 
+        const numberOfPosts = postIds.length;
+        const upperBound = numberOfPosts < 20 ? numberOfPosts : 20;
+
         this.setState({
           isRefreshing: false,
-          postIds: postIds
+          postIds: postIds,
+          range: [0, upperBound]
         });
 
         if(this.state.posts.length === 0) {
@@ -62,7 +66,8 @@ export default class PostList extends Component {
     this.setState({ isLoading: true });
 
     const [start, end] = this.state.range;
-    const idFilter = this.state.postIds.splice(start, end).toString();    
+    
+    const idFilter = this.state.postIds.slice(start, end).toString();    
     const url = 'https://community.giffgaff.com/api/posts?filter[id]=';
     const endpointUrl = url+idFilter;
 
@@ -71,13 +76,17 @@ export default class PostList extends Component {
         (res) => res.json()
       )
       .then((data) => {
+        console.log(data['data'].length)
         const posts = this.state.posts.concat(data['data']);
+
+        const postsRemaining = this.state.postIds.length - end;
+        const upperBound = postsRemaining < 20 ? end+postsRemaining : 20;
 
         this.setState({
           isRefreshing: false,
           isLoading: false,
           posts: posts,
-          range: [start+20, end+20],
+          range: [end, upperBound],
         });
 
       })
@@ -85,8 +94,9 @@ export default class PostList extends Component {
   }
 
   scroll() {
-    console.log(this.state.isLoading)
-    if(this.state.isLoading) { return }
+    const { range, postIds, isLoading } = this.state;
+    if(range[1] === postIds.length || isLoading ) { return }
+
     this.getPosts();
   }
 
@@ -135,7 +145,7 @@ export default class PostList extends Component {
           onRefresh={() => { this.refresh() }} />
         }
         onEndReachedThreshold={0.1}
-        onEndReached={() => this.scroll()}
+        onEndReached={this.scroll.bind(this)}
         data={dataKeys}
         ListFooterComponent={this.state.isLoading && <ActivityIndicator />}
         renderItem={
