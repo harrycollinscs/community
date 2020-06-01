@@ -22,18 +22,6 @@ export default class Home extends Component {
 
     const { navigation } = this.props;
 
-    navigation.setOptions({
-
-      headerRight: () => (
-        <Button
-          title='◉'
-          color='#fff'
-          onPress={() =>
-            navigation.navigate('Profile')
-          } />
-      ),
-    })
-
     return (
       <>
         <TagsHeader />
@@ -42,41 +30,3 @@ export default class Home extends Component {
     )
   }
 }
-
-
-// const Home = ({ navigation }) => {
-
-//   navigation.setOptions({
-
-//     headerRight: () => (
-//       <Button
-//         title='O'
-//         color='#fff'
-//         onPress={() =>
-//           navigation.navigate('Profile')
-//         } />
-//     ),
-//   })
-
-// alert(this.props)
-//   return (
-//   <>
-
-//     <View>
-//       <Text>Hi</Text>
-//       <Button
-//         title="Profile"
-//         onPress={() =>
-//           navigation.navigate('Profile')
-//         }
-//       />
-
-//     </View>
-//   </>
-
-// )
-
-// };
-
-
-// export default Home;

@@ -1,15 +1,7 @@
-
-import React, { Component, useEffect } from 'react';
-import { StyleSheet, Text, View, StatusBar } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-// import { createBottomTabNavigator } from 'react-navigation-tabs';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-// import SplashScreen from 'react-native-splash-screen';
+import React, { Component } from 'react';
+import { StatusBar } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
-
-import Home from './src/pages/Home';
-import Profile from './src/pages/Profile';
-import PageStack from './src/pages/PageStack';
+import TabNavigator from './src/pages/navigation/TabNavigator';
 
 export default class App extends Component {
 
@@ -21,25 +13,9 @@ export default class App extends Component {
     return (
       <>
         <StatusBar barStyle="light-content" />
-        <PageStack />
+        <TabNavigator/>
       </>
     );
   }
 }
 
-
-class MyTabs extends Component {
-
-  render() {
-
-    const Tab = createBottomTabNavigator();
-
-    return (
-      <Tab.Navigator>
-        <Tab.Screen name="Home" component={Home} />
-        <Tab.Screen name="Profile" component={Profile} />
-      </Tab.Navigator>
-    );
-
-  }
-}

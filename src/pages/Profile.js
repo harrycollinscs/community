@@ -26,7 +26,9 @@ export default class Profile extends Component {
   }
 
   getMember() {
+    console.log(this.props)
     const { memberId } = this.props.route.params;
+    // const myId = 12113206;
     const url = 'https://community.giffgaff.com/api/users/';
 
     fetch(url + memberId)
