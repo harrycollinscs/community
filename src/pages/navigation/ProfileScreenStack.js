@@ -9,32 +9,23 @@ const ProfileStack = createStackNavigator();
 function ProfileScreenStack() {
   return (
     <ProfileStack.Navigator>
-      {/* <ProfileStack.Screen 
-      name="Home" 
-      component={Home}
-      options={{
-        title: 'Community',
-        headerStyle: {
-          backgroundColor: '#000',
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-            fontFamily: 'Gill Sans'
-        },
-      }}
-       />  */}
       <ProfileStack.Screen 
       name="Profile" 
       component={Profile}
       options={{
-        title: 'Community',
+        title: 'Profile',
         headerStyle: {
-          backgroundColor: '#000',
+          backgroundColor: '#ea5b25',
         },
         headerTintColor: '#fff',
         headerTitleStyle: {
             fontFamily: 'Gill Sans'
         },
+        forceInset: { top: 'never', bottom: 'never' },
+
+        navigationOptions: {
+          headerForceInset: { top: 'never', bottom: 'never' },
+      },
       }}/>
     </ProfileStack.Navigator>
   );

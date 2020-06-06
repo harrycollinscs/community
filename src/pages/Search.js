@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+// import { SearchBar } from 'react-native-elements';
 
 import {
   SafeAreaView,
@@ -14,20 +15,14 @@ import {
 
 import TagsList from '../components/TagsList';
 import TagsHeader from '../components/WelcomeBannerPink';
-import DiscussionList from '../components/DiscussionList';
 
 
-export default class Home extends Component {
+export default class Search extends Component {
 
   render() {
 
-    const { navigation } = this.props;
-
     return (
-      <>
-        {/* <TagsHeader /> */}
-        <DiscussionList tagSlug=""/>
-      </>
+      <Text>Hi</Text>
     )
   }
 }

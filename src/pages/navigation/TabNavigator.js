@@ -24,6 +24,8 @@ import {
    faSearch as SearchHollow,
    faUser as UserHollow
   } from '@fortawesome/free-regular-svg-icons'
+import TagsScreenStack from './TagsScreenStack';
+import SearchScreenStack from './SearchScreenStack';
 
 const Tab = createBottomTabNavigator();
 
@@ -51,24 +53,24 @@ export default function TabNavigator() {
                 break;
             }
 
-            const iconColor = focused ? '#fff' : 'grey';
+            const iconColor = focused ? '#fcc31e' : 'grey';
 
             return <FontAwesomeIcon icon={ iconName } color={ iconColor } size={ 20 }/>;
           },
         })}
         tabBarOptions={{
           style: {
-            backgroundColor: 'black',//color you want to change
+            backgroundColor: 'white',//color you want to change
           },
-          activeTintColor: 'white',
+          activeTintColor: '#fcc31e',
           inactiveTintColor: 'gray',
           showIcon: true,
           showLabel: false,
         }}>
         <Tab.Screen name="Home" component={HomeScreenStack} />
-        <Tab.Screen name="Tags" component={HomeScreenStack} />
-        <Tab.Screen name="Search" component={HomeScreenStack} />
-        <Tab.Screen name="Profile" component={ProfileScreenStack} />
+        <Tab.Screen name="Tags" component={TagsScreenStack} />
+        <Tab.Screen name="Search" component={SearchScreenStack} />
+        <Tab.Screen name="Profile" component={ProfileScreenStack}  />
       </Tab.Navigator>
     </NavigationContainer>
   );

@@ -15,9 +15,9 @@ function HomeScreenStack() {
         name="Home"
         component={Home}
         options={{
-          title: 'Community',
+          title: 'All discussions',
           headerStyle: {
-            backgroundColor: '#000',
+            backgroundColor: '#35ADCE',
           },
           headerTintColor: '#fff',
           headerTitleStyle: {

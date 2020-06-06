@@ -27,7 +27,7 @@ export default class DiscussionList extends Component {
 
     const { tagSlug } = this.props;
     const url = 'https://community.giffgaff.com/api/discussions?include=user%2ClastPostedUser%2Ctags%2CfirstPost%2Cpoll%2CrecipientUsers%2CrecipientGroups';
-    const tagFilter = `&filter%5Bq%5D=+tag%3A${tagSlug}`
+    const tagFilter = tagSlug === "" ? "" : `&filter%5Bq%5D=+tag%3A${tagSlug}`
     const endpointUrl = url+tagFilter;
 
     this.firstUrl = endpointUrl;
