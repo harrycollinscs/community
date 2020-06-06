@@ -9,6 +9,21 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreenStack from './HomeScreenStack';
 import ProfileScreenStack from './ProfileScreenStack';
 
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+
+import { 
+  faHome as HomeSolid, 
+  faTags as TagsSolid, 
+  faSearch as SearchSolid, 
+  faUser as UserSolid
+} from '@fortawesome/free-solid-svg-icons';
+
+import {
+   faHome as HomeHollow,
+   faTags as TagsHollow,
+   faSearch as SearchHollow,
+   faUser as UserHollow
+  } from '@fortawesome/free-regular-svg-icons'
 
 const Tab = createBottomTabNavigator();
 
@@ -17,33 +32,42 @@ export default function TabNavigator() {
     <NavigationContainer>
       <Tab.Navigator
 
-        // screenOptions={({ route }) => ({
-        //   tabBarIcon: ({ focused, color, size }) => {
-        //     let iconName;
-        //     if (route.name === 'Home') {
-        //       iconName = focused
-        //         ? 'ios-information-circle'
-        //         : 'ios-information-circle-outline';
-        //     } else if (route.name === 'Settings') {
-        //       iconName = focused
-        //         ? 'ios-list-box'
-        //         : 'ios-list';
-        //     }
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused }) => {
+            let iconName;
+            
+            switch( route.name ) {
+              case 'Home':
+                iconName = HomeSolid;
+                break;
+              case 'Tags':
+                iconName = TagsSolid;
+                break;
+              case 'Search':
+                iconName = SearchSolid;
+                break;
+              case 'Profile':
+                iconName = UserSolid;
+                break;
+            }
 
-        //     return <Ionicons name={iconName} size={size} color={color} />;
-        //   },
-        // })}
+            const iconColor = focused ? '#fff' : 'grey';
+
+            return <FontAwesomeIcon icon={ iconName } color={ iconColor } size={ 20 }/>;
+          },
+        })}
         tabBarOptions={{
           style: {
             backgroundColor: 'black',//color you want to change
           },
           activeTintColor: 'white',
           inactiveTintColor: 'gray',
+          showIcon: true,
+          showLabel: false,
         }}>
         <Tab.Screen name="Home" component={HomeScreenStack} />
+        <Tab.Screen name="Tags" component={HomeScreenStack} />
         <Tab.Screen name="Search" component={HomeScreenStack} />
-        <Tab.Screen name="( + )" component={HomeScreenStack} />
-        <Tab.Screen name="Help" component={HomeScreenStack} />
         <Tab.Screen name="Profile" component={ProfileScreenStack} />
       </Tab.Navigator>
     </NavigationContainer>
