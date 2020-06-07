@@ -18,7 +18,7 @@ export default class PostList extends Component {
 
     this.state = {
       isRefreshing: false,
-      isLoading: false,
+      isLoading: true,
       posts: [],
       postIds: [],
       range: [],
@@ -33,7 +33,10 @@ export default class PostList extends Component {
   getPostsIds() {
     const discussionId = this.props.discussionId;
 
-    this.setState({ isRefreshing: true });
+    this.setState({ 
+      isRefreshing: true,
+      isLoading: true, 
+    });
 
     fetch("https://community.giffgaff.com/api/discussions/" + discussionId)
       .then(
@@ -63,7 +66,6 @@ export default class PostList extends Component {
   }
 
   getPosts() {
-    this.setState({ isLoading: true });
 
     const [start, end] = this.state.range;
     
@@ -76,7 +78,6 @@ export default class PostList extends Component {
         (res) => res.json()
       )
       .then((data) => {
-        console.log(data['data'].length)
         const posts = this.state.posts.concat(data['data']);
 
         const postsRemaining = this.state.postIds.length - end;

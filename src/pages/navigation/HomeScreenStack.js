@@ -12,63 +12,43 @@ function HomeScreenStack() {
   return (
     <HomeStack.Navigator>
       <HomeStack.Screen
-        name="Home"
+        name="All discussions"
         component={Home}
-        options={{
-          title: 'All discussions',
-          headerStyle: {
-            backgroundColor: '#35ADCE',
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontFamily: 'Gill Sans'
-          },
-        }}
+        options={screenOptions('Home')}
       />
       <HomeStack.Screen
         name="Profile"
         component={Profile}
-        options={{
-          title: 'Profile',
-          headerStyle: {
-            backgroundColor: '#fff',
-          },
-          headerTintColor: '#000',
-          headerTitleStyle: {
-            fontFamily: 'Gill Sans'
-          },
-        }}
+        options={screenOptions('Profile')}
       />
       <HomeStack.Screen
         name="Discussion List"
         component={DiscussionListPage}
-        options={{
-          title: 'Discussions',
-          headerStyle: {
-            backgroundColor: '#000',
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontFamily: 'Gill Sans'
-          },
-        }}
+        options={screenOptions('Discussions')}
       />
-        <HomeStack.Screen
-          name="Discussion"
-          component={Discussion}
-          options={{
-            title: 'Discussion',
-            headerStyle: {
-              backgroundColor: '#000',
-            },
-            headerTintColor: '#fff',
-            headerTitleStyle: {
-              fontFamily: 'Gill Sans'
-            },
-          }}
-        />
+      <HomeStack.Screen
+        name="Discussion"
+        component={Discussion}
+        options={screenOptions('Discussion')}
+      />
     </HomeStack.Navigator>
   );
+}
+
+const screenOptions = (title = '') => {
+  return ({
+    title: title,
+    headerStyle: {
+      backgroundColor: '#35ADCE',
+      // backgroundColor: '#fff'
+    },
+    headerTintColor: '#fff',
+    // headerTintColor: '#000',
+    headerTitleStyle: {
+      // fontWeight: 'bold',
+      fontFamily: 'Gill Sans'
+    }
+  })
 }
 
 export default HomeScreenStack;

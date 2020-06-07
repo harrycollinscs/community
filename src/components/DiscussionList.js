@@ -18,7 +18,8 @@ export default class DiscussionList extends Component {
 
     this.state = {
       isRefreshing: false,
-      isLoading: false,
+      isLoading: true,
+      firstLoadComplete: false,
       discussions: [],
     }
   }
@@ -31,12 +32,14 @@ export default class DiscussionList extends Component {
     const endpointUrl = url+tagFilter;
 
     this.firstUrl = endpointUrl;
-
     this.getDiscussions(this.firstUrl);
+    this.setState({ firstLoadComplete: true});
   }
 
   getDiscussions(url) {
     if(url === undefined || (this.currentUrl === this.nextUrl && this.currentUrl!=null)) { return }
+
+    console.log(url)
 
     this.setState({ isLoading: true })
 
@@ -61,7 +64,7 @@ export default class DiscussionList extends Component {
   }
 
   scroll() {
-    if(this.state.isLoading) { return }
+    if(this.state.isLoading && this.state.firstLoadComplete) { return }
     this.getDiscussions(this.currentUrl);
   }
 
@@ -101,7 +104,7 @@ export default class DiscussionList extends Component {
         refreshControl={
           <RefreshControl refreshing={this.state.isRefreshing} onRefresh={() => { this.refresh() }} />
         }
-        onEndReachedThreshold={0.1}
+        onEndReachedThreshold={0.01}
         onEndReached={() => this.scroll()}
         data={dataKeys}
         ListFooterComponent={this.state.isLoading && <ActivityIndicator />}

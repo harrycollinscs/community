@@ -21,11 +21,6 @@ function ProfileScreenStack() {
         headerTitleStyle: {
             fontFamily: 'Gill Sans'
         },
-        forceInset: { top: 'never', bottom: 'never' },
-
-        navigationOptions: {
-          headerForceInset: { top: 'never', bottom: 'never' },
-      },
       }}/>
     </ProfileStack.Navigator>
   );

@@ -26,7 +26,10 @@ export default class Home extends Component {
     return (
       <>
         {/* <TagsHeader /> */}
-        <DiscussionList tagSlug=""/>
+        <DiscussionList
+          navigation={navigation}
+          tagSlug=""
+        />
       </>
     )
   }

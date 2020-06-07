@@ -26,8 +26,7 @@ export default class Profile extends Component {
   }
 
   getMember() {
-    const memberId = this.props.route.params ? this.props.route.params : 12113206;
-    // const myId = 12113206;
+    const memberId = this.props.route.params ? this.props.route.params.memberId : 12113206;
     const url = 'https://community.giffgaff.com/api/users/';
 
     fetch(url + memberId)
@@ -51,12 +50,9 @@ export default class Profile extends Component {
 
     return (
       <>
-        {/* <MemberProfileBanner 
+        <MemberProfileBanner 
           attributes={attributes}
-        /> */}
-        <SafeAreaView>
-        <Text style={{'backgroundColor':'#ea5b25', 'borderColor': '#ea5b25', 'borderWidth':10}}> idk we gonna put some content here cba rn </Text>
-        </SafeAreaView>
+        />
       </>
     )
   }

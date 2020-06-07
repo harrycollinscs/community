@@ -22,7 +22,7 @@ const screenOptions = (title = '') => {
   return ({
     title: title,
     headerStyle: {
-      backgroundColor: '#007349',
+      backgroundColor: '#FCC31E',
     },
     headerTintColor: '#fff',
     headerTitleStyle: {
