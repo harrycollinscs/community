@@ -83,9 +83,6 @@ export default class PostList extends Component {
         const postsRemaining = this.state.postIds.length - end;
         const upperBound = postsRemaining < 20 ? end+postsRemaining : end+20;
 
-        console.log(end)
-        console.log(upperBound)
-
         this.setState({
           isRefreshing: false,
           isLoading: false,

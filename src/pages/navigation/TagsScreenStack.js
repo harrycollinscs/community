@@ -21,11 +21,17 @@ function TagsScreenStack() {
         component={Profile}
         options={screenOptions('Profile')}
       />
+
       <TagsStack.Screen
         name="Discussion List"
         component={DiscussionListPage}
-        options={screenOptions('Discussions', 'Discussion')}
+        options={(props) => {
+          return (
+            screenOptions(props.route.params.title, 'Discussion')
+          )
+        }}
       />
+
       <TagsStack.Screen
         name="Discussion"
         component={Discussion}
