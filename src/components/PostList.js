@@ -19,6 +19,7 @@ export default class PostList extends Component {
     this.state = {
       isRefreshing: false,
       isLoading: true,
+      firstLoadComplete: false,
       posts: [],
       postIds: [],
       range: [],
@@ -68,7 +69,6 @@ export default class PostList extends Component {
   getPosts() {
 
     const [start, end] = this.state.range;
-    
     const idFilter = this.state.postIds.slice(start, end).toString();    
     const url = 'https://community.giffgaff.com/api/posts?filter[id]=';
     const endpointUrl = url+idFilter;
@@ -81,11 +81,15 @@ export default class PostList extends Component {
         const posts = this.state.posts.concat(data['data']);
 
         const postsRemaining = this.state.postIds.length - end;
-        const upperBound = postsRemaining < 20 ? end+postsRemaining : 20;
+        const upperBound = postsRemaining < 20 ? end+postsRemaining : end+20;
+
+        console.log(end)
+        console.log(upperBound)
 
         this.setState({
           isRefreshing: false,
           isLoading: false,
+          firstLoadComplete: true,
           posts: posts,
           range: [end, upperBound],
         });
@@ -95,21 +99,14 @@ export default class PostList extends Component {
   }
 
   scroll() {
-    const { range, postIds, isLoading } = this.state;
-    if(range[1] === postIds.length || isLoading ) { return }
+    const { range, postIds, isLoading, firstLoadComplete } = this.state;
+    if(range[1] === postIds.length || isLoading || !firstLoadComplete) { return }
 
     this.getPosts();
   }
 
   refresh() {
-
-    this.setState({ 
-      isRefreshing: true,
-      posts: [],
-      range: [0, 20],
-    });
-
-    this.getPosts();
+    this.getPostsIds();
   }
 
   render() {
@@ -146,7 +143,7 @@ export default class PostList extends Component {
           onRefresh={() => { this.refresh() }} />
         }
         onEndReachedThreshold={0.1}
-        onEndReached={this.scroll.bind(this)}
+        onEndReached={() => { this.scroll() }}
         data={dataKeys}
         ListFooterComponent={this.state.isLoading && <ActivityIndicator />}
         renderItem={

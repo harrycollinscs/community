@@ -18,9 +18,9 @@ export default class DiscussionListBanner extends Component {
 
 const styles = StyleSheet.create({
   header: {
-    backgroundColor: '#EB5F8E',
+    backgroundColor: '#35adce',
     color: '#fff',
-    fontSize: 25,
+    fontSize: 20,
     fontWeight: 'bold',
     padding: 15,
     margin: 0,

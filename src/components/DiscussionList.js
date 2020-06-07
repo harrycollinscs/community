@@ -37,9 +37,29 @@ export default class DiscussionList extends Component {
   }
 
   getDiscussions(url) {
-    if(url === undefined || (this.currentUrl === this.nextUrl && this.currentUrl!=null)) { return }
 
-    console.log(url)
+    this.setState({ isRefreshing: true })
+
+    fetch(url)
+      .then(
+        (res) => res.json()
+      )
+      .then((data) => {
+
+        this.currentUrl = data['links']['next'];
+
+        this.setState({
+          isRefreshing: false,
+          isLoading: false,
+          discussions: data['data'],
+        });
+      })
+      
+      .catch(console.log);
+  }
+
+  loadMore(url) {
+    if(url === undefined || (this.currentUrl === this.nextUrl && this.currentUrl!=null)) { return }
 
     this.setState({ isLoading: true })
 
@@ -50,11 +70,9 @@ export default class DiscussionList extends Component {
       .then((data) => {
 
         const discussions = this.state.discussions.concat(data['data']);
-
         this.currentUrl = data['links']['next'];
 
         this.setState({
-          isRefreshing: false,
           isLoading: false,
           discussions: discussions,
         });
@@ -65,9 +83,8 @@ export default class DiscussionList extends Component {
 
   scroll() {
     if(this.state.isLoading && this.state.firstLoadComplete) { return }
-    this.getDiscussions(this.currentUrl);
+    this.loadMore(this.currentUrl);
   }
-
 
   refresh() {
     this.setState({ 

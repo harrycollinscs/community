@@ -24,22 +24,24 @@ function TagsScreenStack() {
       <TagsStack.Screen
         name="Discussion List"
         component={DiscussionListPage}
-        options={screenOptions('Discussions')}
+        options={screenOptions('Discussions', 'Discussion')}
       />
       <TagsStack.Screen
         name="Discussion"
         component={Discussion}
-        options={screenOptions('Discussion')}
+        options={screenOptions('Discussion', 'Discussion')}
       />
     </TagsStack.Navigator>
   );
 }
 
-const screenOptions = (title = '') => {
+const screenOptions = (title = '', pageType = '') => {
+  const headerColor = pageType === 'Discussion' ? '#35ADCE' : '#eb5f8e';
+
   return ({
     title: title,
     headerStyle: {
-      backgroundColor: '#eb5f8e',
+      backgroundColor: headerColor,
     },
     headerTintColor: '#fff',
     headerTitleStyle: {

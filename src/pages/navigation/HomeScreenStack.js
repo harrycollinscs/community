@@ -14,7 +14,7 @@ function HomeScreenStack() {
       <HomeStack.Screen
         name="All discussions"
         component={Home}
-        options={screenOptions('Home')}
+        options={screenOptions('All discussions')}
       />
       <HomeStack.Screen
         name="Profile"
