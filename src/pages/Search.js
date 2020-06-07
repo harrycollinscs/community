@@ -10,19 +10,41 @@ import {
   StatusBar,
   Button,
   TouchableOpacity,
+  TextInput
 
 } from 'react-native';
+import SearchBar from '../components/SearchBar';
 
-import TagsList from '../components/TagsList';
-import TagsHeader from '../components/WelcomeBannerPink';
 
 
 export default class Search extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      searchValue: "",
+    }
+  }
+
+  onChangeText(text) {
+    this.setState({ searchValue: text })
+  }
 
   render() {
-
     return (
-      <Text>Hi</Text>
+      <View style={styles.searchBarContainer}>
+        <SearchBar
+          onChangeText={this.onChangeText.bind(this)}
+          value={this.state.searchValue}
+        />
+      </View>
     )
   }
 }
+
+const styles = StyleSheet.create({
+  searchBarContainer: {
+    backgroundColor: '#FCC31E',
+    height: 50,
+  }
+});
