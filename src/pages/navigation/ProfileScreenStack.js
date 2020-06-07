@@ -13,7 +13,7 @@ function ProfileScreenStack() {
         name="Profile"
         component={Profile}
         options={(props) => {
-          const title = "harrycollins97's profile"
+          const title = "harrycollins97"
 
           return (
             screenOptions(title, 'Profile')

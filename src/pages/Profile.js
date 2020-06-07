@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 
 import MemberProfileBanner from '../components/MemberProfileBanner';
+import ProfileTabs from '../components/ProfileTabs';
 
 export default class Profile extends Component {
   constructor(props) {
@@ -53,6 +54,7 @@ export default class Profile extends Component {
         <MemberProfileBanner 
           attributes={attributes}
         />
+        <ProfileTabs/>
       </>
     )
   }

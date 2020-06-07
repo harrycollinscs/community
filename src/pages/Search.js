@@ -45,6 +45,6 @@ export default class Search extends Component {
 const styles = StyleSheet.create({
   searchBarContainer: {
     backgroundColor: '#FCC31E',
-    height: 50,
+    height: 54,
   }
 });
