@@ -19,33 +19,48 @@ function HomeScreenStack() {
       <HomeStack.Screen
         name="Profile"
         component={Profile}
-        options={screenOptions('Profile')}
-      />
-      <HomeStack.Screen
-        name="Discussion List"
-        component={DiscussionListPage}
-        options={screenOptions('Discussions')}
+        options={(props) => {
+          return (
+            screenOptions(props.route.params.memberName, 'Profile')
+          )
+        }}
       />
       <HomeStack.Screen
         name="Discussion"
         component={Discussion}
-        options={screenOptions('Discussion')}
+        options={(props) => {
+          const title = props.route.params.memberName + "'s post";
+          return (
+            screenOptions(title, 'Discussion')
+          )
+        }}
       />
     </HomeStack.Navigator>
   );
 }
 
-const screenOptions = (title = '') => {
+const screenOptions = (title = '', pageType = '') => {
+  let headerColor;
+
+  switch (pageType) {
+    case 'Discussion':
+      headerColor = '#35ADCE';
+      break;
+    case 'Profile':
+      headerColor = '#ea5b25';
+      break;
+    default:
+      headerColor = '#35ADCE';
+  }
+
   return ({
     title: title,
     headerStyle: {
-      backgroundColor: '#35ADCE',
-      // backgroundColor: '#fff'
+      backgroundColor: headerColor,
     },
+    headerBackTitleVisible: false,
     headerTintColor: '#fff',
-    // headerTintColor: '#000',
     headerTitleStyle: {
-      // fontWeight: 'bold',
       fontFamily: 'Gill Sans'
     }
   })

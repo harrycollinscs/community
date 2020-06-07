@@ -36,9 +36,9 @@ export default class MemberProfileBanner extends Component {
             />
           </View>
           <View style={styles.bannerText}>
-            <Text style={styles.displayName}>
+            {/* <Text style={styles.displayName}>
               {displayName}
-            </Text>
+            </Text> */}
             <Text style={styles.bio}>
               {bio}
             </Text>
@@ -103,6 +103,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   bio: {
+    marginTop: 20,
     color: '#ffffff',
     fontSize: 14,
     marginBottom: 5,

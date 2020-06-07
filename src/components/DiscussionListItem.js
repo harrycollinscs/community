@@ -75,12 +75,12 @@ export default class DiscussionListItem extends Component {
     const lastPostedAtAgo = timeAgo.format(new Date(lastPostedAt));
 
     return (
-      <TouchableHighlight onPress={() => navigation.navigate('Discussion', { discussionId: discussionId, discussionTitle: title })}>
+      <TouchableHighlight onPress={() => navigation.navigate('Discussion', { discussionId: discussionId, discussionTitle: title, memberName: displayName })}>
         <View style={styles.discussion}>
 
           <View style={styles.iconContainer}>
             <TouchableWithoutFeedback
-              onPress={() => navigation.navigate('Profile', { memberId: memberId })}>
+              onPress={() => navigation.navigate('Profile', { memberId: memberId, memberName: displayName })}>
               <Image
                 style={ [styles.memberIcon, memberHasGroup ? { 'borderColor': iconBorderColor } : { 'borderColor': iconBorderColor }] }
                 source={{
@@ -93,7 +93,7 @@ export default class DiscussionListItem extends Component {
           <View style={styles.discussionText}>
             <View style={styles.header}>
               <TouchableWithoutFeedback
-                onPress={() => navigation.navigate('Profile', { memberId: memberId })}>
+                onPress={() => navigation.navigate('Profile', { memberId: memberId, memberName: displayName })}>
                 <Text style={styles.username}>{displayName}</Text>
               </TouchableWithoutFeedback>
               <Text style={styles.createdAt}>{createdAtAgo}</Text>

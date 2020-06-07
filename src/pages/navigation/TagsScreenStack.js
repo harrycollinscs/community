@@ -19,7 +19,11 @@ function TagsScreenStack() {
       <TagsStack.Screen
         name="Profile"
         component={Profile}
-        options={screenOptions('Profile')}
+        options={(props) => {
+          return (
+            screenOptions(props.route.params.memberName, 'Profile')
+          )
+        }}
       />
 
       <TagsStack.Screen
@@ -35,20 +39,37 @@ function TagsScreenStack() {
       <TagsStack.Screen
         name="Discussion"
         component={Discussion}
-        options={screenOptions('Discussion', 'Discussion')}
+        options={(props) => {
+          const title = props.route.params.memberName + "'s post";
+          return (
+            screenOptions(title, 'Discussion')
+          )
+        }}
       />
     </TagsStack.Navigator>
   );
 }
 
 const screenOptions = (title = '', pageType = '') => {
-  const headerColor = pageType === 'Discussion' ? '#35ADCE' : '#eb5f8e';
+  let headerColor;
+
+  switch (pageType) {
+    case 'Discussion':
+      headerColor = '#35ADCE';
+      break;
+    case 'Profile':
+      headerColor = '#ea5b25';
+      break;
+    default:
+      headerColor = '#eb5f8e';
+  }
 
   return ({
     title: title,
     headerStyle: {
       backgroundColor: headerColor,
     },
+    headerBackTitleVisible: false,
     headerTintColor: '#fff',
     headerTitleStyle: {
       fontFamily: 'Gill Sans'

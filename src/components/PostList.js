@@ -104,6 +104,7 @@ export default class PostList extends Component {
 
   refresh() {
     this.getPostsIds();
+    this.setState({ isLoading: false })
   }
 
   render() {

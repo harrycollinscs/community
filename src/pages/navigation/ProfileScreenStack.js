@@ -9,21 +9,42 @@ const ProfileStack = createStackNavigator();
 function ProfileScreenStack() {
   return (
     <ProfileStack.Navigator>
-      <ProfileStack.Screen 
-      name="Profile" 
-      component={Profile}
-      options={{
-        title: 'Profile',
-        headerStyle: {
-          backgroundColor: '#ea5b25',
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-            fontFamily: 'Gill Sans'
-        },
-      }}/>
+      <ProfileStack.Screen
+        name="Profile"
+        component={Profile}
+        options={(props) => {
+          const title = "harrycollins97's profile"
+
+          return (
+            screenOptions(title, 'Profile')
+          )
+        }} />
     </ProfileStack.Navigator>
   );
+}
+
+const screenOptions = (title = '', pageType = '') => {
+  let headerColor;
+
+  switch (pageType) {
+    case 'Profile':
+      headerColor = '#ea5b25';
+      break;
+    default:
+      headerColor = '#ea5b25';
+  }
+
+  return ({
+    title: title,
+    headerStyle: {
+      backgroundColor: headerColor,
+    },
+    headerBackTitleVisible: false,
+    headerTintColor: '#fff',
+    headerTitleStyle: {
+      fontFamily: 'Gill Sans'
+    }
+  })
 }
 
 export default ProfileScreenStack;

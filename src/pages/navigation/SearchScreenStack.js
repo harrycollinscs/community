@@ -24,6 +24,7 @@ const screenOptions = (title = '') => {
     headerStyle: {
       backgroundColor: '#FCC31E',
     },
+    headerBackTitleVisible: false,
     headerTintColor: '#fff',
     headerTitleStyle: {
       fontFamily: 'Gill Sans'

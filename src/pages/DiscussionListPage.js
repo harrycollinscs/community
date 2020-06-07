@@ -22,7 +22,6 @@ export default class DiscussionListPage extends Component {
     const { title, tagSlug } = this.props.route.params;
     return (
       <>
-        {/* <DiscussionListBanner title={title} /> */}
         <DiscussionList 
           navigation={navigation} 
           tagSlug={tagSlug}

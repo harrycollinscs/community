@@ -74,18 +74,21 @@ export default class PostListItem extends Component {
       <View style={isFirstPost ? styles.firstPost : styles.post}>
 
         <View style={styles.iconContainer}>
-          <Image
-            style={ [styles.memberIcon, memberHasGroup ? { 'borderColor': iconBorderColor } : { 'borderColor': iconBorderColor }]}
-            source={{
-              uri: avatarUrl
-            }}
-          />
+          <TouchableWithoutFeedback
+            onPress={() => navigation.navigate('Profile', { memberId: memberId, memberName: displayName })}>
+            <Image
+              style={[styles.memberIcon, memberHasGroup ? { 'borderColor': iconBorderColor } : { 'borderColor': iconBorderColor }]}
+              source={{
+                uri: avatarUrl
+              }}
+            />
+          </TouchableWithoutFeedback>
         </View>
 
         <View style={styles.postText}>
 
           <View style={styles.header}>
-            <TouchableWithoutFeedback onPress={() => navigation.navigate('Profile', { memberId: memberId })}>
+            <TouchableWithoutFeedback onPress={() => navigation.navigate('Profile', { memberId: memberId, memberName: displayName })}>
               <Text style={styles.username}>
                 {displayName}
               </Text>
