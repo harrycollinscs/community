@@ -44,7 +44,6 @@ export default function ProfileTabs() {
     PostsTab: PostsTab,
     DiscussionsTab: DiscussionsTab,
     MentionsTab: MentionsTab,
-
   });
 
   return (

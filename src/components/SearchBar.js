@@ -80,6 +80,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   searchTextInput: {
+    color: 'black',
     marginLeft: 10,
     marginRight: 20,
     width: '90%',
