@@ -49,11 +49,12 @@ export default class MemberPostListItem extends Component {
       return null;
     }
 
-    const { post, discussionTitle, navigation } = this.props;
+    const { post } = this.props;
     const { number, contentHtml, createdAt } = post.attributes;
     const memberId = post.relationships.user.data.id;
 
-    const content = contentHtml.replace(/(<([^>]+)>)/ig, "").substring(0, 100) + '...';
+    let content = contentHtml.replace(/(<([^>]+)>)/ig, "")
+    content = content.length > 100 ? content.substring(0, 100)+"..." : content;
 
     const { attributes } = this.state.member['data'];
     const { displayName, avatarUrl } = attributes;

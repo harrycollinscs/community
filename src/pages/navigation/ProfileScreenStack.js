@@ -3,7 +3,6 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Home from '../Home';
 import Profile from '../Profile';
 
-
 const ProfileStack = createStackNavigator();
 
 function ProfileScreenStack() {
@@ -14,7 +13,6 @@ function ProfileScreenStack() {
         component={Profile}
         options={(props) => {
           const title = "harrycollins97"
-
           return (
             screenOptions(title, 'Profile')
           )
