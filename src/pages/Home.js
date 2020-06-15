@@ -54,7 +54,6 @@ export default class Home extends Component {
           useNativeDriver={false}
           onPress={() => {
             this.setState({ active: !this.state.active });
-            console.log('new discussion');
             navigation.navigate('Composer')
           }}>
           <FontAwesomeIcon icon={faPen} />
