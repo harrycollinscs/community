@@ -23,7 +23,8 @@ export default class Discussion extends Component {
       <PostList
         navigation={navigation}
         discussionId={discussionId}
-        discussionTitle={discussionTitle} />
+        discussionTitle={discussionTitle}
+      />
     )
   }
 }

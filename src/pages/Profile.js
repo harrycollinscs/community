@@ -47,6 +47,8 @@ export default class Profile extends Component {
       return <ActivityIndicator />
     }
 
+    // console.log(this.props.route.params.memberId)
+    const { memberId } = this.props.route.params;
     const { attributes } = this.state.member;
 
     return (
@@ -54,7 +56,10 @@ export default class Profile extends Component {
         <MemberProfileBanner 
           attributes={attributes}
         />
-        <ProfileTabs/>
+        {/* {ProfileTabs(memberId)} */}
+        <ProfileTabs
+          memberId={memberId}
+        />
       </>
     )
   }

@@ -12,7 +12,7 @@ function SearchScreenStack() {
       <SearchStack.Screen
         name="Search"
         component={Search}
-        options={screenOptions('Search')}
+        options={screenOptions('Search', 'Search')}
 
       />
       <SearchStack.Screen
@@ -20,7 +20,7 @@ function SearchScreenStack() {
         component={Profile}
         options={(props) => {
           return (
-            screenOptions(props.route.params.memberName)
+            screenOptions(props.route.params.memberName, 'Profile')
           )
         }}
       />
@@ -30,7 +30,7 @@ function SearchScreenStack() {
         options={(props) => {
           const title = props.route.params.memberName + "'s post";
           return (
-            screenOptions(title)
+            screenOptions(title, 'Discussion')
           )
         }}
       />
@@ -38,11 +38,24 @@ function SearchScreenStack() {
   );
 }
 
-const screenOptions = (title = '') => {
+const screenOptions = (title = '', pageType =  '') => {
+  let headerColor;
+
+  switch (pageType) {
+    case 'Discussion':
+      headerColor = '#35ADCE';
+      break;
+    case 'Profile':
+      headerColor = '#ea5b25';
+      break;
+    default:
+      headerColor = '#FCC31E';
+  }
+
   return ({
     title: title,
     headerStyle: {
-      backgroundColor: '#FCC31E',
+      backgroundColor: headerColor,
     },
     headerBackTitleVisible: false,
     headerTintColor: '#fff',

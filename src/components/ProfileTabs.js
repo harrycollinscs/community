@@ -1,28 +1,16 @@
 import * as React from 'react';
 import { View, StyleSheet, Dimensions, Text } from 'react-native';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
+import MemberPostList from '../components/MemberPostList';
 
-const PostsTab = () => (
-  <View style={styles.scene}>
-    <Text>Posts</Text>
-  </View >
-);
 
-const DiscussionsTab = () => (
-  <View style={styles.scene}>
-    <Text>Discussions</Text>
-  </View>
-);
 
-const MentionsTab = () => (
-  <View style={styles.scene}>
-    <Text>Mentions</Text>
-  </View>
-);
+
 
 const initialLayout = { width: Dimensions.get('window').width };
 
-export default function ProfileTabs() {
+export default function ProfileTabs(props) {
+  const { memberId } = props;
   const [index, setIndex] = React.useState(0);
 
   const [routes] = React.useState([
@@ -39,6 +27,24 @@ export default function ProfileTabs() {
       title: 'Mentions'
     },
   ]);
+
+  const PostsTab = () => (
+    <View style={styles.scene}>
+      <MemberPostList memberId={memberId}/>
+    </View >
+  );
+  
+  const DiscussionsTab = () => (
+    <View style={styles.scene}>
+      <Text>Discussions</Text>
+    </View>
+  );
+  
+  const MentionsTab = () => (
+    <View style={styles.scene}>
+      <Text>Mentions</Text>
+    </View>
+  );
 
   const renderScene = SceneMap({
     PostsTab: PostsTab,
