@@ -2,14 +2,15 @@ import 'react-native-gesture-handler';
 import * as React from 'react';
 import { Component } from 'react';
 
-import { 
+import {
   StyleSheet,
   Text,
   TextInput,
   View,
   Button,
   TouchableWithoutFeedback,
-  Keyboard } from 'react-native';
+  Keyboard
+} from 'react-native';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch as SearchSolid } from '@fortawesome/free-solid-svg-icons';
@@ -28,31 +29,31 @@ export default class SearchBar extends Component {
 
     return (
       <View style={styles.container}>
-      <View style={[styles.searchBar, {'width': isFocused ? '75%' : '95%'}]}>
-        <FontAwesomeIcon icon={SearchSolid} style={styles.searchIcon} />
-        <TextInput
-          autoFocus={true}
-          clearButtonMode={'while-editing'}
-          blueOnSubmit={true}
-          onFocus={() => this.setState({ isFocused: true })}
-          onBlur={() => this.setState({ isFocused: false })}
-          style={styles.searchTextInput}
-          onChangeText={text => this.props.onChangeText(text)}
-          value={this.props.value}
-          placeholder={'Search the community'}
-        />
-        
-      </View>
-      {isFocused &&
-        <TouchableWithoutFeedback
-          style={styles.cancelButton}
-          onPress={() => {
-            this.setState({ isFocused: false });
-            Keyboard.dismiss();
-          }}>
-          <Text style={styles.cancelButton}>Cancel</Text>
-        </TouchableWithoutFeedback>
-      }
+        <View style={[styles.searchBar, { 'width': isFocused ? '75%' : '95%' }]}>
+          <FontAwesomeIcon icon={SearchSolid} style={styles.searchIcon} />
+          <TextInput
+            autoFocus={true}
+            clearButtonMode={'while-editing'}
+            blueOnSubmit={true}
+            onFocus={() => this.setState({ isFocused: true })}
+            onBlur={() => this.setState({ isFocused: false })}
+            style={styles.searchTextInput}
+            onChangeText={text => this.props.onChangeText(text)}
+            value={this.props.value}
+            placeholder={'Search the community'}
+          />
+
+        </View>
+        {isFocused &&
+          <TouchableWithoutFeedback
+            style={styles.cancelButton}
+            onPress={() => {
+              this.setState({ isFocused: false });
+              Keyboard.dismiss();
+            }}>
+            <Text style={styles.cancelButton}>Cancel</Text>
+          </TouchableWithoutFeedback>
+        }
       </View>
     );
 
@@ -63,7 +64,8 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     paddingTop: 0,
-
+    backgroundColor: '#FCC31E',
+    height: 54,
   },
   searchBar: {
     backgroundColor: '#fff',

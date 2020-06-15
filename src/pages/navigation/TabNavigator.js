@@ -71,6 +71,7 @@ export default function TabNavigator() {
         <Tab.Screen name="Tags" component={TagsScreenStack} />
         <Tab.Screen name="Search" component={SearchScreenStack} />
         <Tab.Screen name="Profile" component={ProfileScreenStack}  />
+        
       </Tab.Navigator>
     </NavigationContainer>
   );

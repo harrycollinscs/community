@@ -4,6 +4,7 @@ import Home from '../Home';
 import Profile from '../Profile';
 import DiscussionListPage from '../DiscussionListPage';
 import Discussion from '../Discussion';
+import ComposerPage from '../ComposerPage';
 
 
 const HomeStack = createStackNavigator();
@@ -35,6 +36,11 @@ function HomeScreenStack() {
           )
         }}
       />
+      <HomeStack.Screen
+        name="Composer"
+        component={ComposerPage}
+        options={ screenOptions('Composer', 'Discussion') }
+      />
     </HomeStack.Navigator>
   );
 }
@@ -54,10 +60,37 @@ const screenOptions = (title = '', pageType = '') => {
   }
 
   return ({
+    // gestureDirection: 'vertical',
+    // transitionSpec: {
+    //   open: {
+    //     animation: 'timing',
+    //     config: {
+    //       stiffness: 1000,
+    //       damping: 500,
+    //       mass: 3,
+    //       overshootClamping: true,
+    //       restDisplacementThreshold: 0.01,
+    //       restSpeedThreshold: 0.01,
+    //       useNativeDriver: true,
+    //     }},
+    //   close: {
+    //     animation: 'timing',
+    //     config: {
+    //       stiffness: 1000,
+    //       damping: 500,
+    //       mass: 3,
+    //       overshootClamping: true,
+    //       restDisplacementThreshold: 0.01,
+    //       restSpeedThreshold: 0.01,
+    //       useNativeDriver: true,
+    //     }},
+    // },
+
     title: title,
     headerStyle: {
       backgroundColor: headerColor,
     },
+    gestureDirection: 'vertical',
     headerBackTitleVisible: false,
     headerTintColor: '#fff',
     headerTitleStyle: {

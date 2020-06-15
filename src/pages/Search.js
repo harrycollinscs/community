@@ -14,6 +14,7 @@ import {
 
 } from 'react-native';
 import SearchBar from '../components/SearchBar';
+import SearchResultsList from '../components/SearchResultsList';
 
 
 
@@ -27,24 +28,23 @@ export default class Search extends Component {
   }
 
   onChangeText(text) {
-    this.setState({ searchValue: text })
+    this.setState({ searchValue: text });
   }
 
   render() {
+    const { searchValue } = this.state;
+
     return (
-      <View style={styles.searchBarContainer}>
+      <View>
         <SearchBar
           onChangeText={this.onChangeText.bind(this)}
           value={this.state.searchValue}
+        />
+        <SearchResultsList
+          searchValue={ searchValue }
         />
       </View>
     )
   }
 }
 
-const styles = StyleSheet.create({
-  searchBarContainer: {
-    backgroundColor: '#FCC31E',
-    height: 54,
-  }
-});

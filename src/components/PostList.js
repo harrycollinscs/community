@@ -73,6 +73,8 @@ export default class PostList extends Component {
     const url = 'https://community.giffgaff.com/api/posts?filter[id]=';
     const endpointUrl = url+idFilter;
 
+    this.setState({ isLoading: true });
+
     fetch(endpointUrl)
       .then(
         (res) => res.json()
@@ -141,7 +143,13 @@ export default class PostList extends Component {
           onRefresh={() => { this.refresh() }} />
         }
         onEndReachedThreshold={0.1}
-        onEndReached={() => { this.scroll() }}
+        onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false; }}
+        onEndReached={() => {
+          if (!this.onEndReachedCalledDuringMomentum) {
+            this.scroll();
+            this.onEndReachedCalledDuringMomentum = true;
+          }
+        }}
         data={dataKeys}
         ListFooterComponent={this.state.isLoading && <ActivityIndicator />}
         renderItem={
