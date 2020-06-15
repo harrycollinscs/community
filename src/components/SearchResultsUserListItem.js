@@ -12,42 +12,36 @@ import {
   TouchableWithoutFeedback
 } from 'react-native';
 
-export default class SearchResultsListItem extends Component {
+export default class SearchResultsUserListItem extends Component {
 
   render() {
-
-    const { user } = this.props;
+    const { user, navigation } = this.props;
     const { username, avatarUrl } = user.attributes;
+    const userId = user.id;
 
     return (
       <TouchableHighlight
-      // onPress={() => navigation.navigate('Discussion', { discussionId: discussionId, discussionTitle: title, memberName: displayName })}
+        onPress={() => navigation.navigate('Profile', { memberId: userId, memberName: username })}
       >
         <View style={styles.discussion}>
 
           <View style={styles.iconContainer}>
-            <TouchableWithoutFeedback
-            // onPress={() => navigation.navigate('Profile', { memberId: memberId, memberName: displayName })}
-            >
-              <Image
-                style={styles.memberIcon}
-                source={{
-                  uri: avatarUrl
-                }}
-              />
-            </TouchableWithoutFeedback>
+
+            <Image
+              style={styles.memberIcon}
+              source={{
+                uri: avatarUrl
+              }}
+            />
           </View>
 
           <View style={styles.discussionText}>
 
             <View style={styles.header}>
-              <TouchableWithoutFeedback
-              // onPress={() => navigation.navigate('Profile', { memberId: memberId, memberName: displayName })}
-              >
-                <Text style={styles.username}>
-                  {username}
-                </Text>
-              </TouchableWithoutFeedback>
+
+              <Text style={styles.username}>
+                {username}
+              </Text>
 
             </View>
 
@@ -106,7 +100,7 @@ const styles = StyleSheet.create({
   },
   username: {
     width: '60%',
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
   },
   createdAt: {
     textAlign: 'right',
@@ -119,7 +113,7 @@ const styles = StyleSheet.create({
     marginRight: 15,
   },
   title: {
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
     fontSize: 18,
     marginBottom: 5,
   },

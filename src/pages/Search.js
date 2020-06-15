@@ -41,7 +41,8 @@ export default class Search extends Component {
           value={this.state.searchValue}
         />
         <SearchResultsList
-          searchValue={ searchValue }
+          searchValue={searchValue}
+          navigation={this.props.navigation}
         />
       </View>
     )

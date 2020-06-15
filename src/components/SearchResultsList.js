@@ -2,31 +2,33 @@ import 'react-native-gesture-handler';
 import * as React from 'react';
 import { Component } from 'react';
 
-import { View } from 'react-native';
+import { View, SectionList } from 'react-native';
 
 import { ActivityIndicator, Text, RefreshControl, StyleSheet } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
-import SearchResultsListItem from './SearchResultsListItem';
+
+import SearchResultsUserListItem from './SearchResultsUserListItem';
+import SearchResultsDiscussionListItem from './SearchResultsDiscussionListItem';
 
 export default class SearchResultsList extends Component {
 
   constructor(props) {
     super(props);
 
-    this.currentUrl = null;
-    this.nextUrl = null;
-
     this.state = {
       isLoading: false,
       searchValue: "",
       users: [],
+      discussions: [],
     }
   }
 
-  getSearchResults() {
+  getSearchResultsUsers() {
 
-    const { searchValue } = this.state;
-    const url = `https://community.giffgaff.com/api/users?filter%5Bq%5D=${searchValue}&page%5Blimit%5D=10`;
+    const { searchValue } = this.props;
+    const url = `https://community.giffgaff.com/api/users?filter%5Bq%5D=${searchValue}&page%5Blimit%5D=5`;
+
+    this.setState({ isLoading: true });
 
     fetch(url)
       .then(
@@ -34,23 +36,33 @@ export default class SearchResultsList extends Component {
       )
       .then((data) => {
 
-        this.currentUrl = data['links']['next'];
-
         this.setState({
           isLoading: false,
           users: data['data'],
         });
-
       })
       .catch(console.log);
   }
 
-  loadMore(url) {
+  getSearchResultsDiscussions() {
+    const { searchValue } = this.props;
 
-  }
+    const url = `https://community.giffgaff.com/api/discussions?filter%5Bq%5D=${searchValue}&page%5Blimit%5D=5&include=mostRelevantPost`;
 
-  onScroll() {
+    this.setState({ isLoading: true });
 
+    fetch(url)
+      .then(
+        (res) => res.json()
+      )
+      .then((data) => {
+
+        this.setState({
+          isLoading: false,
+          discussions: data['data'],
+        });
+      })
+      .catch(console.log);
   }
 
   onType(props) {
@@ -60,7 +72,8 @@ export default class SearchResultsList extends Component {
       });
 
       if (props.searchValue.length > 3) {
-        this.getSearchResults();
+        this.getSearchResultsUsers();
+        this.getSearchResultsDiscussions();
       }
 
     };
@@ -71,37 +84,48 @@ export default class SearchResultsList extends Component {
     const props = this.props;
     this.onType(props);
 
-    const { users } = this.state;
+    const { users, discussions } = this.state;
 
-    if(users.length === 0) {
-      return <View/>
+    if (users.length === 0 || discussions.length === 0) {
+      return <View />
     }
 
-    const dataKeys = users
-      .map((user) => {
-        return (
-          {
-            key: user['id'],
-            user: user,
-          }
-        )
-      })
+    const sections = [
+      {
+        title: 'Users',
+        data: this.state.users,
+      },
+      {
+        title: 'Discussions',
+        data: this.state.discussions,
+      }
+    ];
 
     return (
-      <FlatList
-        data={dataKeys}
-        // style={{'marginTop': 10}}
-        renderItem={
-          ({ item }) =>
-          <SearchResultsListItem 
-            key={item.key}
-            user={item.user}
-          />
-        }
+      <SectionList
+        sections={sections}
+        renderItem={({ item, section }) => {
+          let component;
+
+          switch (section.title) {
+            case 'Users':
+              component = <SearchResultsUserListItem user={item} navigation={this.props.navigation}/>;
+              break;
+            case 'Discussions':
+              component = <SearchResultsDiscussionListItem discussion={item} navigation={this.props.navigation}/>;
+              break;
+            default:
+              component = <View></View>
+              break;
+          }
+          return ( component )
+      }}
+        renderSectionHeader={({ section }) => (
+          <Text style={{'padding':10, 'fontWeight': 'bold'}}>{section.title}</Text>
+        )}
       />
     )
 
-    
   }
 }
 
