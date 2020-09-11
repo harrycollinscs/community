@@ -1,13 +1,14 @@
 import 'react-native-gesture-handler';
-import * as React from 'react';
-import { Component } from 'react';
-
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { ActivityIndicator, Text, RefreshControl, StyleSheet } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 
 import DiscussionListItem from './DiscussionListItem';
 
-export default class DiscussionList extends Component {
+import { getDiscussions } from '../store/actions';
+
+class DiscussionList extends Component {
 
   constructor(props) {
     super(props);
@@ -18,8 +19,6 @@ export default class DiscussionList extends Component {
 
     this.state = {
       isRefreshing: false,
-      isLoading: true,
-      firstLoadComplete: false,
       discussions: [],
     }
   }
@@ -32,36 +31,13 @@ export default class DiscussionList extends Component {
     const endpointUrl = url + tagFilter;
 
     this.firstUrl = endpointUrl;
-    this.getDiscussions(this.firstUrl);
-    this.setState({ firstLoadComplete: true });
-  }
-
-  getDiscussions(url) {
-
-    this.setState({ isRefreshing: true })
-
-    fetch(url)
-      .then(
-        (res) => res.json()
-      )
-      .then((data) => {
-
-        this.currentUrl = data['links']['next'];
-
-        this.setState({
-          isRefreshing: false,
-          isLoading: false,
-          discussions: data['data'],
-        });
-      })
-
-      .catch(console.log);
+    this.props.getDiscussions(this.firstUrl);
   }
 
   loadMore(url) {
     if (url === undefined || (this.currentUrl === this.nextUrl && this.currentUrl != null)) { return }
 
-    this.setState({ isLoading: true })
+    // this.setState({ isLoading: true })
 
     fetch(url)
       .then(
@@ -73,7 +49,7 @@ export default class DiscussionList extends Component {
         this.currentUrl = data['links']['next'];
 
         this.setState({
-          isLoading: false,
+        //   isLoading: false,
           discussions: discussions,
         });
       })
@@ -82,7 +58,7 @@ export default class DiscussionList extends Component {
   }
 
   scroll() {
-    if (this.state.isLoading && this.state.firstLoadComplete) { return }
+    if (this.props.isLoading && this.props.firstLoadComplete) { return }
     this.loadMore(this.currentUrl);
   }
 
@@ -98,8 +74,9 @@ export default class DiscussionList extends Component {
   }
 
   render() {
-    const { navigation } = this.props;
-    const { discussions } = this.state;
+    const { navigation, discussions } = this.props;
+
+    console.log(discussions);
 
     if (discussions.length === 0) {
       return <ActivityIndicator />
@@ -130,7 +107,7 @@ export default class DiscussionList extends Component {
           }
         }}
         data={dataKeys}
-        ListFooterComponent={this.state.isLoading && <ActivityIndicator />}
+        ListFooterComponent={this.props.isLoading && <ActivityIndicator />}
         renderItem={
           ({ item }) =>
             <DiscussionListItem
@@ -144,4 +121,10 @@ export default class DiscussionList extends Component {
   }
 }
 
+const mapStateToProps = store => ({
+    discussions: store.discussions.discussions,
+    firstLoadComplete: store.discussions.firstLoadComplete,
+    isLoading: store.discussions.isLoading,
+});
 
+export default connect(mapStateToProps, { getDiscussions })(DiscussionList);
