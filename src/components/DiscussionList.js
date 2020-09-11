@@ -6,7 +6,7 @@ import { FlatList } from 'react-native-gesture-handler';
 
 import DiscussionListItem from './DiscussionListItem';
 
-import { getDiscussions } from '../store/actions';
+import { getDiscussions, refreshDiscussions } from '../store/actions';
 
 class DiscussionList extends Component {
 
@@ -14,17 +14,9 @@ class DiscussionList extends Component {
     super(props);
 
     this.firstUrl = null;
-    this.currentUrl = null;
-    this.nextUrl = null;
-
-    this.state = {
-      isRefreshing: false,
-      discussions: [],
-    }
   }
 
   componentDidMount() {
-
     const { tagSlug } = this.props;
     const url = 'https://community.giffgaff.com/api/discussions?include=user%2ClastPostedUser%2Ctags%2CfirstPost%2Cpoll%2CrecipientUsers%2CrecipientGroups';
     const tagFilter = tagSlug === "" ? "" : `&filter%5Bq%5D=+tag%3A${tagSlug}`
@@ -34,49 +26,19 @@ class DiscussionList extends Component {
     this.props.getDiscussions(this.firstUrl);
   }
 
-  loadMore(url) {
-    if (url === undefined || (this.currentUrl === this.nextUrl && this.currentUrl != null)) { return }
-
-    // this.setState({ isLoading: true })
-
-    fetch(url)
-      .then(
-        (res) => res.json()
-      )
-      .then((data) => {
-
-        const discussions = this.state.discussions.concat(data['data']);
-        this.currentUrl = data['links']['next'];
-
-        this.setState({
-        //   isLoading: false,
-          discussions: discussions,
-        });
-      })
-
-      .catch(console.log);
-  }
-
   scroll() {
     if (this.props.isLoading && this.props.firstLoadComplete) { return }
-    this.loadMore(this.currentUrl);
+
+    this.props.getDiscussions(this.props.links.next);
   }
 
   refresh() {
-    this.setState({
-      isRefreshing: true,
-    });
-
-    this.currentUrl = this.firstUrl,
-      this.nextUrl = null;
-
-    this.getDiscussions(this.currentUrl);
+    this.props.refreshDiscussions();
+    this.props.getDiscussions(this.firstUrl);
   }
 
   render() {
     const { navigation, discussions } = this.props;
-
-    console.log(discussions);
 
     if (discussions.length === 0) {
       return <ActivityIndicator />
@@ -96,9 +58,9 @@ class DiscussionList extends Component {
     return (
       <FlatList
         refreshControl={
-          <RefreshControl refreshing={this.state.isRefreshing} onRefresh={() => { this.refresh() }} />
+          <RefreshControl  onRefresh={() => { this.refresh() }} />
         }
-        onEndReachedThreshold={0.01}
+        onEndReachedThreshold={1}
         onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false; }}
         onEndReached={() => {
           if (!this.onEndReachedCalledDuringMomentum) {
@@ -123,8 +85,9 @@ class DiscussionList extends Component {
 
 const mapStateToProps = store => ({
     discussions: store.discussions.discussions,
+    links: store.discussions.links,
     firstLoadComplete: store.discussions.firstLoadComplete,
     isLoading: store.discussions.isLoading,
 });
 
-export default connect(mapStateToProps, { getDiscussions })(DiscussionList);
+export default connect(mapStateToProps, { getDiscussions, refreshDiscussions })(DiscussionList);

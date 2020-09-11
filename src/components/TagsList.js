@@ -1,47 +1,21 @@
 import 'react-native-gesture-handler';
 import * as React from 'react';
 import { View, Component } from 'react';
-
+import { connect } from 'react-redux';
 import { ActivityIndicator, Text, ListView } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
-
 import TagsListItem from './TagsListItem';
 
-export default class TagsList extends Component {
+import { getTags } from '../store/actions';
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      tags: [],
-      dummy: [
-        "All discussions", "Announcements", "Service Updates", "Help and support", "Contribute", "General discussion", "Tips and guides", "Welcome and join"],
-    }
-  }
+class TagsList extends Component {
 
   componentDidMount() {
-    this.getTags();
-  }
-
-  getTags() {
-    this.setState({ isRefreshing: false });
-
-    fetch("https://community.giffgaff.com/api/tags")
-      .then(
-        (res) => res.json()
-      )
-      .then((data) => {
-        this.setState({
-          tags: data['data'],
-        });
-        this.setState({ isRefreshing: false });
-      })
-      .catch(console.log);
+    this.props.getTags();
   }
 
   render() {
-    const { navigation } = this.props;
-    const tags = this.state.tags;
+    const { navigation, tags } = this.props;
 
     if (tags.length === 0) {
       return <ActivityIndicator />
@@ -73,6 +47,12 @@ export default class TagsList extends Component {
 
     )
 
-
   }
 }
+
+const mapStateToProps = store => ({
+    tags: store.tags.tags,
+    isLoading: store.tags.isLoading,
+});
+
+export default connect(mapStateToProps, { getTags })(TagsList);
